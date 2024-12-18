@@ -4,8 +4,7 @@
 This project is a MERN (MongoDB, Express, React, Node.js) stack-based web application designed to streamline project management. Each group member has a dedicated branch to implement complete CRUD functionality. Additionally, we utilize modern libraries and tools like Vite, Radix UI, and Shadcn UI to enhance development and user experience.
 
 ## Branching Structure
-- **Default branch:** `default`
-- **Main branch:** `main`
+- **Default branch:** `main`
 - **Feature branches:** Each group member will have two branches for development. I have created them for you
 
 ## Features
@@ -16,15 +15,15 @@ This project is a MERN (MongoDB, Express, React, Node.js) stack-based web applic
 
 ### Prerequisites
 Make sure you have the following installed:
-- **Node.js** (LTS version recommended)
-- **npm** or **yarn**
+- **Node.js** (LTS version)
+- **npm**
 - **MongoDB** (local or cloud instance)
 
 ### Installation
 1. **Clone the repository**
    ```bash
-   git clone -b default <repository-url>
-   cd <repository-folder>
+   git clone https://github.com/Manusha-Nirmal-Perera/ITP-group-project.git
+   cd ITP-group-project
    ```
 
 2. **Install server dependencies**
@@ -45,7 +44,7 @@ Make sure you have the following installed:
 1. Create a `.env` file in the `server` folder and add the following variables:
    ```env
    MONGO_URI=<your-mongodb-uri>
-   PORT=5000
+   PORT=5000 or free port (eg: 3000/4000 )
    JWT_SECRET=<your-secret-key>
    ```
 
@@ -96,6 +95,14 @@ Each team member works on their respective branches. Follow these steps:
    ```bash
    git checkout <branch_name>
    ```
+2. Stage the changes made
+   ````bash
+   git add .
+   ````
+   or 
+   ```bash
+   git add filename.extention
+   ````
 2. Commit your changes with meaningful messages:
    ```bash
    git commit -m "Add feature: <description>"
