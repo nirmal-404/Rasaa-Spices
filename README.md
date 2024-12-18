@@ -6,12 +6,9 @@ This project is a MERN (MongoDB, Express, React, Node.js) stack-based web applic
 ## Branching Structure
 - **Default branch:** `default`
 - **Main branch:** `main`
-- **Feature branches:** Each group member will have two branches for development. Follow this naming convention: `feature/<member-name>`.
+- **Feature branches:** Each group member will have two branches for development. I have created them for you
 
 ## Features
-- Fully functional project management tool
-- Modern UI components with **Radix UI** and **Shadcn UI**
-- Fast development setup using **Vite**
 
 ---
 
