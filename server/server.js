@@ -1,32 +1,27 @@
-require('dotenv').config();
-const express = require("express");
-const mongoose = require("mongoose");
-
-const cors = require("cors");
-
-
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.log(error));
-
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import dotenv from 'dotenv'
+import cors from 'cors'
+import userRoutes from './routes/userRoutes.js'
 
 const app = express();
-const PORT = process.env.PORT;
-const mong= process.env.MONGO_URI;
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control",
-      "Expires",
-      "Pragma",
-    ],
-    credentials: true,
-  })
-);
+app.use(bodyParser.json());
+app.use(cors());
+dotenv.config();
 
-app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+const PORT = process.env.PORT || 4900;
+const MONGO_URI = process.env.MONGO_URI;
+
+mongoose.connect(MONGO_URI)
+                .then(()=>{
+                    console.log("DB Connected Succesfully...");
+                    app.listen(PORT,()=>{
+                        console.log(`Server is running on port number: ${PORT}`);
+                    });
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
+
+app.use("/api",userRoutes);
