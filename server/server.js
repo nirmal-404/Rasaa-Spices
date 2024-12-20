@@ -4,6 +4,8 @@ import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
 import userRoutes from './routes/userRoutes.js'
+import contactRoutes from './routes/ContactUserRoutes.js'
+
 
 const app = express();
 app.use(bodyParser.json());
@@ -25,3 +27,4 @@ mongoose.connect(MONGO_URI)
                 })
 
 app.use("/api",userRoutes);
+app.use("/api/contact",contactRoutes);
