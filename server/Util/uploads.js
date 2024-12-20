@@ -8,7 +8,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 // Ensure the 'Uploads' directory exists
-const uploadDir = path.join(__dirname, 'Uploads');
+const uploadDir = path.join(__dirname, 'uploads/images/users');
 if (!fs.existsSync(uploadDir)) {
     fs.mkdirSync(uploadDir, { recursive: true });
 }
@@ -19,7 +19,7 @@ const storage = multer.diskStorage({
     },
     filename: function (req, file, cb) {
         const uniqueSuffix = Date.now() + '-' + Math.round(Math.random());
-        cb(null, `${uniqueSuffix}-${file.originalname}`);
+        cb(null, `${uniqueSuffix}`);
     }
 });
 
