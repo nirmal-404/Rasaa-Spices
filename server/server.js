@@ -1,35 +1,32 @@
-require('dotenv').config();
-const express = require("express");
-const mongoose = require("mongoose");
-const cookieParser = require('cookie-parser')
-const cors = require("cors");
+import express from 'express'
+import mongoose from 'mongoose'
+import bodyParser from 'body-parser'
+import dotenv from 'dotenv'
+import cors from 'cors'
+import userRoutes from './routes/auth/userRoutes.js'
+import contactRoutes from './routes/comman/ContactUserRoutes.js'
+import productRoutes from './routes/admin/productRoutes.js'
 
 
-mongoose
-  .connect(process.env.MONGO_URI)
-  .then(() => console.log("MongoDB connected"))
-  .catch((error) => console.log(error));
+const app = express();
+app.use(bodyParser.json());
+app.use(cors());
+dotenv.config();
 
+const PORT = process.env.PORT || 4900;
+const MONGO_URI = process.env.MONGO_URI;
 
-const app = express()
-const PORT = process.env.PORT
+mongoose.connect(MONGO_URI)
+                .then(()=>{
+                    console.log("DB Connected Succesfully...");
+                    app.listen(PORT,()=>{
+                        console.log(`Server is running on port number: ${PORT}`);
+                    });
+                })
+                .catch((error)=>{
+                    console.log(error);
+                })
 
-app.use(
-  cors({
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST", "DELETE", "PUT"],
-    allowedHeaders: [
-      "Content-Type",
-      "Authorization",
-      "Cache-Control",
-      "Expires",
-      "Pragma",
-    ],
-    credentials: true,
-  })
-);
-
-app.use(cookieParser())
-app.use(express.json())
-
-app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
+app.use("/api",userRoutes);
+app.use("/api/contact",contactRoutes);
+app.use("/api/product",productRoutes);
