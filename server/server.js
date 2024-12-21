@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
-
+const cookieParser = require('cookie-parser')
 const cors = require("cors");
 
 
@@ -11,9 +11,9 @@ mongoose
   .catch((error) => console.log(error));
 
 
-const app = express();
-const PORT = process.env.PORT;
-const mong= process.env.MONGO_URI;
+const app = express()
+const PORT = process.env.PORT
+
 app.use(
   cors({
     origin: "http://localhost:5173",
@@ -28,5 +28,8 @@ app.use(
     credentials: true,
   })
 );
+
+app.use(cookieParser())
+app.use(express.json())
 
 app.listen(PORT, () => console.log(`Server is now running on port ${PORT}`));
