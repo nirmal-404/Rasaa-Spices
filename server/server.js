@@ -3,8 +3,9 @@ import mongoose from 'mongoose'
 import bodyParser from 'body-parser'
 import dotenv from 'dotenv'
 import cors from 'cors'
-import userRoutes from './routes/userRoutes.js'
-import contactRoutes from './routes/ContactUserRoutes.js'
+import userRoutes from './routes/auth/userRoutes.js'
+import contactRoutes from './routes/comman/ContactUserRoutes.js'
+import productRoutes from './routes/admin/productRoutes.js'
 
 
 const app = express();
@@ -28,3 +29,4 @@ mongoose.connect(MONGO_URI)
 
 app.use("/api",userRoutes);
 app.use("/api/contact",contactRoutes);
+app.use("/api/product",productRoutes);

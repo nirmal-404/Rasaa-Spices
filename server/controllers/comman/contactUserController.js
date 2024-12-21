@@ -1,4 +1,4 @@
-import Contact from '../models/contactModels.js'
+import Contact from '../../models/contactModels.js'
 
 
 export const addContactUs = async(req,res)=>{
@@ -28,7 +28,7 @@ export const addContactUs = async(req,res)=>{
 
 export const getContacts = async(req,res)=> {
     try{
-        console.log("hiiii");
+        
         const existContact = await Contact.find();
 
         if(!existContact.length) {
