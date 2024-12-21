@@ -1,4 +1,4 @@
-import User from '../models/userModels.js'
+import User from '../../models/userModels.js'
 import dotenv from 'dotenv'
 
 import bcrypt from 'bcryptjs';
@@ -11,12 +11,19 @@ export const addUser = async(req,res)=> {
         console.log("Body:", req.body); 
         console.log("File:", req.file);
 
-        const {firstName,lastName,address,email,gender,phone,password,role} = req.body;
-        const image = req?.file?.filename;
+        const {firstName,lastName,email,gender,phone,password,role} = req.body;
+        let image = 'Notspecified.png';
+
+        if(gender === "male") {
+            image = "male.png";
+        }
+        else if(gender === "female"){
+            image = "female.png";
+        }
 
        
   
-        if(!firstName || !lastName || ! address || !email || !gender || !phone ||!password) {
+        if(!firstName || !lastName || !email || !gender || !phone ||!password) {
             return res.status(400).json({status: "error", message: "All fields are required..."});
         }
 
@@ -29,9 +36,10 @@ export const addUser = async(req,res)=> {
 
         const salt = await bcrypt.genSalt(10)
         const hash = await bcrypt.hash(password,salt)
-        console.log(hash);
+
+        
        
-        const newUser = await User.create({firstName,lastName,address,email,gender,phone,password:hash,image});
+        const newUser = await User.create({firstName,lastName,email,gender,phone,password:hash,image});
 
         return res.status(200).json({status: "success", message: "New user is created successfully...",data: newUser});
 
