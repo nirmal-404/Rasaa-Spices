@@ -11,31 +11,32 @@ const userSchema = new mongoose.Schema({
     },
     email: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     gender: {
         type: String,
         required: true
     },
-    phone: {
+    phoneNumber: {
         type: String,
         required: true,
-        match: [/^\+\d{1,4}[\d\s\-]{7,15}$/, 'Please enter a valid Sri Lankan phone number starting with +94'], 
+        match: [/^\+\d{1,4}[\d\s\-]{7,15}$/, 'Please enter a valid Sri Lankan phone number starting with +94'],
 
     },
-    password:{
+    password: {
         type: String,
         required: true
     },
     role: {
         type: String,
         default: 'user'
-        
+
     },
     image: {
         type: String,
-        required: true
+        default: 'user.png'
     }
 })
 
-export default mongoose.model("User",userSchema);
+export default mongoose.model("User", userSchema);

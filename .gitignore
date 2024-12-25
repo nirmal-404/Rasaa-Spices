@@ -5,3 +5,7 @@ server/node_modules
 # Ignore environment files
 client/.env
 server/.env
+
+# Ignoree uploads
+server/Util/uploads/images/products
+server/Util/uploads/images/users

@@ -21,7 +21,7 @@ const contactSchema = new mongoose.Schema({
         minlength: [10, 'Message should be at least 10 characters long'],
         maxlength: [50, 'Message should not exceed 50 characters'],
     },
-    
+
 });
 
 export default mongoose.model("ContactUs", contactSchema);

@@ -3,22 +3,22 @@ import "react-phone-number-input/style.css";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 
 function CommonForm({
     formControls,
-      formData,
-      setFormData,
-      onSubmit,
-      buttonText,
-      isBtnDisabled,
+    formData,
+    setFormData,
+    onSubmit,
+    buttonText,
+    isBtnDisabled,
 }) {
 
     function renderInputsByComponentType(getControlItem) {
