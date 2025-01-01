@@ -19,7 +19,7 @@ const productSchema = new mongoose.Schema({
         required: [true, "Category is required"],
         trim: true,
         enum: {
-            values: ['beverages', 'snacks', 'desserts', 'sweets', 'meals'],
+            values: ['spices', 'powders', 'crushed-and-roasted', 'healthy-range-products'],
             message: "{VALUE} is not a valid category"
         }
     },
@@ -29,7 +29,7 @@ const productSchema = new mongoose.Schema({
         min: [0, "Price must be a positive number"]
     },
     salePrice: {
-        type: Number, // Changed to Number for proper calculations
+        type: Number,
         required: [true, "Sale price is required"],
         min: [0, "Sale price must be a positive number"],
         validate: {
@@ -39,20 +39,19 @@ const productSchema = new mongoose.Schema({
             message: "Sale price must be less than or equal to the price"
         }
     },
-    totalPrice: {
-        type: Number, // Changed to Number for proper calculations
-        required: [true, "Total price is required"],
-        min: [0, "Total price must be a positive number"]
+    totalStock: {
+        type: Number,
+        required: [true, "Available Quantity is required"],
+        min: [0, "Available Quantity must be a positive number"]
     },
-    averageReview: {
-        type: Number, // Changed to Number for numerical operations
-        required: [true, "Average review is required"],
-        min: [0, "Average review must be between 0 and 5"],
-        max: [5, "Average review must be between 0 and 5"]
-    },
+    // averageReview: {
+    //     type: Number, // Changed to Number for numerical operations
+    //     required: [true, "Average review is required"],
+    //     min: [0, "Average review must be between 0 and 5"],
+    //     max: [5, "Average review must be between 0 and 5"]
+    // },
     isSpecial: {
         type: Boolean,
-        required: [true, "isSpecial flag is required"],
         default: false
     },
     image: {
@@ -60,6 +59,6 @@ const productSchema = new mongoose.Schema({
         required: [true, "Image URL is required"],
         trim: true,
     }
-});
+}, { timestamps: true });
 
 export default mongoose.model("Product", productSchema);

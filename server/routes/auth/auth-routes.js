@@ -1,6 +1,5 @@
 import express from "express";
-import upload from "../../Util/uploads.js"; // Multer middleware
-import { registerUser, getUsers, getuser, updateUser, deleteUser, loginUser, logoutUser, authMiddleware } from "../../controllers/auth/authController.js";
+import { registerUser, getUsers, getuser, updateUser, deleteUser, loginUser, logoutUser, authMiddleware } from "../../controllers/auth/auth-controller.js";
 
 const router = express.Router(); // Initialize the router
 

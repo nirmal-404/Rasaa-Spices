@@ -1,9 +1,9 @@
 
+
 function AdminDashboard() {
 
   return (
     <div>Admin dashboard</div>
-
   );
 }
 

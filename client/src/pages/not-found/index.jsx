@@ -1,9 +1,9 @@
 
-function NotFound () {
+
+function NotFound() {
+
   return (
-    <div>
-      page does not exists
-    </div>
+    <div>page does not exists</div>
   )
 }
 
