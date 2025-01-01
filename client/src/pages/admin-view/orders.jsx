@@ -1,10 +1,9 @@
 
+
 function AdminOrders() {
+
   return (
-    <div>
-      admin orders
-      {/* <AdminOrdersView /> */}
-    </div>
+    <div>admin orders</div>
   );
 }
 

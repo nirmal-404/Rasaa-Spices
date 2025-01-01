@@ -1,4 +1,4 @@
-import Contact from '../../models/contactModels.js'
+import Contact from '../../models/Contact.js'
 
 
 export const addContactUs = async (req, res) => {
