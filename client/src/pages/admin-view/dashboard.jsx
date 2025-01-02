@@ -1,9 +1,12 @@
+import ContactList from "@/components/shopping-view/ContactList";
 
 
 function AdminDashboard() {
 
   return (
-    <div>Admin dashboard</div>
+    <div>
+      <ContactList />
+    </div>
   );
 }
 
