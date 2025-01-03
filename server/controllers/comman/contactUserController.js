@@ -69,6 +69,8 @@ export const getContact = async (req, res) => {
 
 export const deleteContact = async (req, res) => {
     try {
+
+        console.log("here....")
         const cid = req.params.id;
 
         const deletedcontact = await Contact.findByIdAndDelete(cid);

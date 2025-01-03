@@ -4,10 +4,10 @@ import { addContactUs, deleteContact, getContact, getContacts, updateContact } f
 const routeContact = express.Router();
 
 routeContact.post("/", addContactUs);
-routeContact.get("/contacts", getContacts);
+routeContact.get("/get", getContacts);
 routeContact.get("/:id", getContact);
 routeContact.put("/:id", updateContact);
-routeContact.delete("/:id", deleteContact);
+routeContact.delete("/delete/:id", deleteContact);
 
 
 
