@@ -43,5 +43,5 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
-app.use("/api/contact", contactRoutes);
+app.use("/api/admin/contact", contactRoutes);
 app.use("/api/admin/products", adminProductRoutes);
