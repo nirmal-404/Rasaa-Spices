@@ -74,7 +74,7 @@ export const deleteContact = async (req, res) => {
         const cid = req.params.id;
 
         const deletedcontact = await Contact.findByIdAndDelete(cid);
-        res.status(200).json({ message: "Contact Deleted Succesfully...", data: deletedcontact });
+        res.status(200).json({ status: 'success', message: "Contact Deleted Succesfully...", data: deletedcontact });
 
     } catch (error) {
         return res.status(500).json({ errorMessage: error.message });

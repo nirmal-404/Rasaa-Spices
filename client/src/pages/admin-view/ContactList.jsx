@@ -9,8 +9,9 @@ function ContactList() {
 
 
   function handleDelete(contactId) {
+    console.log(contactId)
     dispatch(deleteContact(contactId)).then((data) => {
-        console.log("im here", data.payload)
+        console.log("im here", data)
       if (data?.payload?.success) {
 
         dispatch(fetchAllContacts());
@@ -24,7 +25,7 @@ function ContactList() {
     dispatch(fetchAllContacts());
   }, [dispatch]);
 
-
+  console.log(contactList);
 
   return (
     <div className="p-8 bg-gray-50 min-h-screen">
@@ -38,7 +39,7 @@ function ContactList() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {contactList.map((contact) => (
             <div
-              key={contact.id}
+              key={contact._id}
               className="bg-white shadow-lg rounded-lg p-6 border border-gray-200 flex flex-col justify-between"
             >
               <div>
@@ -56,7 +57,7 @@ function ContactList() {
                 </p>
               </div>
               <button
-                onClick={() => handleDelete(contact.id)}
+                onClick={() => handleDelete(contact._id)}
                 className="mt-auto bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
               >
                 Remove
