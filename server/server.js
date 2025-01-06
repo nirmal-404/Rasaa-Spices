@@ -6,6 +6,7 @@ import cors from 'cors'
 import authRoutes from './routes/auth/auth-routes.js'
 import contactRoutes from './routes/comman/ContactUserRoutes.js'
 import adminProductRoutes from './routes/admin/products-routes.js'
+import shopProductRoutes from './routes/shop/products-routes.js'
 
 
 const app = express();
@@ -45,3 +46,4 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/admin/products", adminProductRoutes);
+app.use("/api/shop/products", shopProductRoutes);

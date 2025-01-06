@@ -1,14 +1,7 @@
 import express from "express";
 import { registerUser, getUsers, getuser, updateUser, deleteUser, loginUser, logoutUser, authMiddleware } from "../../controllers/auth/auth-controller.js";
 
-const router = express.Router(); // Initialize the router
-
-// Define routes
-// route.post("/", upload.single('image'), registerUser);
-// route.get("/", getUsers);
-// route.get("/:id", getuser);
-// route.put('/:id', upload.single('image'), updateUser);
-// route.delete('/:id',deleteUser);
+const router = express.Router();
 
 router.post("/register", registerUser)
 router.post("/login", loginUser)
