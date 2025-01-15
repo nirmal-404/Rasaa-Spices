@@ -5,10 +5,12 @@ import { Badge } from "../ui/badge";
 
 function ShoppingProductTile({
   product,
+  handleGetProductDetails,
 }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
-      <div>
+      <div onClick={() => handleGetProductDetails(product?._id)}>
+        
         <div className="relative">
           <img
             src={product?.image}
@@ -43,6 +45,7 @@ function ShoppingProductTile({
             >
               LKR {product?.price}
             </span>
+            
             {product?.salePrice > 0 ? (
               <span className="text-lg font-semibold text-primary">
                 LKR {product?.salePrice}

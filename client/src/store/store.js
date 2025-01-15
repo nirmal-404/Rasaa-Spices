@@ -13,8 +13,8 @@ const store = configureStore({
     adminProducts: adminProductsSlice,
     shopProducts: shopProductsSlice,
   },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(logger),
+  // middleware: (getDefaultMiddleware) =>
+  //   getDefaultMiddleware().concat(logger),
 });
 
 export default store;
