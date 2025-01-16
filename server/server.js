@@ -8,6 +8,7 @@ import contactRoutes from './routes/comman/ContactUserRoutes.js'
 import adminProductRoutes from './routes/admin/products-routes.js'
 import shopProductRoutes from './routes/shop/products-routes.js'
 import cartProductsRoutes from './routes/shop/cart-routes.js'
+import wishlistProductsRoutes from './routes/shop/wishlist-routes.js'
 
 
 
@@ -50,3 +51,4 @@ app.use("/api/contact", contactRoutes);
 app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/shop/products", shopProductRoutes);
 app.use("/api/shop/cart", cartProductsRoutes);
+app.use("/api/shop/wishlist", wishlistProductsRoutes);
