@@ -9,6 +9,7 @@ import { useToast } from "../ui/use-toast";
 import { Label } from "../ui/label";
 import { useEffect, useState } from "react";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { resetProductDetails } from "@/store/shop/products-slice";
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
 
@@ -28,8 +29,12 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
         })
     }
 
+    function handleDialogClose() {
+        setOpen(false)
+        dispatch(resetProductDetails())
+    }
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={open} onOpenChange={handleDialogClose}>
             <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw]">
                 <DialogTitle className="sr-only" />
                 <div className="relative overflow-hidden rounded-lg">
