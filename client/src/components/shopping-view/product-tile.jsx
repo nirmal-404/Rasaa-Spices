@@ -6,11 +6,11 @@ import { Badge } from "../ui/badge";
 function ShoppingProductTile({
   product,
   handleGetProductDetails,
+  handleAddtoCart,
 }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
       <div onClick={() => handleGetProductDetails(product?._id)}>
-        
         <div className="relative">
           <img
             src={product?.image}
@@ -23,7 +23,7 @@ function ShoppingProductTile({
             </Badge>
           ) : product?.totalStock < 10 ? (
             <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
-              {`Only ${product?.totalStock} items left`}
+              {`Only ${product?.totalStock} item${product?.totalStock !== 1 ? "s" : ""} left`}
             </Badge>
           ) : product?.salePrice > 0 ? (
             <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
@@ -45,7 +45,6 @@ function ShoppingProductTile({
             >
               LKR {product?.price}
             </span>
-            
             {product?.salePrice > 0 ? (
               <span className="text-lg font-semibold text-primary">
                 LKR {product?.salePrice}
@@ -61,6 +60,7 @@ function ShoppingProductTile({
           </Button>
         ) : (
           <Button
+            onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
             className="w-full"
           >
             Add to cart

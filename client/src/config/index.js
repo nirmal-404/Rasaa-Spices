@@ -120,28 +120,6 @@ export const shoppingViewHeaderMenuItems = [
     id: "products",
     label: "Products",
     path: "/shop/listing",
-    subItems: [
-      {
-        id: "spices",
-        label: "Spices",
-        path: "/shop/listing?category=spices",
-      },
-      {
-        id: "powders",
-        label: "Powders",
-        path: "/shop/listing?category=powders",
-      },
-      {
-        id: "crushed-and-roasted",
-        label: "Crushed\u00A0And\u00A0Roasted",
-        path: "/shop/listing?category=crushed-and-roasted",
-      },
-      {
-        id: "healthy-range-products",
-        label: "Healthy\u00A0Range\u00A0Products",
-        path: "/shop/listing?category=healthy-range-products",
-      },
-    ]
   },
   {
     id: "contact-us",
