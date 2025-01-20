@@ -1,7 +1,10 @@
-import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import logo from "../../assets/logo.png"
+import { MapPin, LogOut, Menu, ShoppingCart, UserCog, Phone, MailOpen } from "lucide-react";
 import {
   Link,
+  useLocation,
   useNavigate,
+  useSearchParams,
 } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger, SheetTitle, SheetDescription } from "../ui/sheet";
 import { Button } from "../ui/button";
@@ -23,20 +26,22 @@ import { Label } from "../ui/label";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
+  const navigate = useNavigate();
 
+  function handleNavigate(getCurrentMenuItem) {
+    sessionStorage.removeItem("filters");
+    navigate(getCurrentMenuItem.path);
+  }
   return (
     <nav className="flex flex-col mb-3 lg:mb-0 lg:items-center gap-6 lg:flex-row">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Link
-          to={menuItem.path}
+        <Label
+          onClick={() => handleNavigate(menuItem)}
+          className="text-sm font-medium cursor-pointer"
           key={menuItem.id}
         >
-          <Label
-            className="text-sm font-medium cursor-pointer"
-          >
-            {menuItem.label}
-          </Label>
-        </Link>
+          {menuItem.label}
+        </Label>
       ))}
     </nav>
   );
@@ -113,10 +118,35 @@ function ShoppingHeader() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
+      <div className="flex flex-wrap items-center justify-between text-xs bg-foreground text-white">
+        <span className="hidden lg:flex text-slate-300 py-3 ml-4 items-center">
+          <span>Welcome to </span>
+          <span className="ml-1 text-red-500">Rasaa Agro Products Pvt Ltd.</span>
+        </span>
+        <span className="hidden lg:flex text-slate-300 ease-in-out duration-500 hover:text-destructive py-3 items-center">
+          <MapPin className="h-3 w-3 mr-1" />
+          190/10, 2B, Colombo Rd, Piliyandala
+        </span>
+        <a
+          href="mailto:rasaaspices@gmail.com"
+          className="hidden lg:flex text-slate-300 ease-in-out duration-500 hover:text-destructive py-3 items-center"
+        >
+          <MailOpen className="h-3 w-3 mr-1" />
+          rasaaspices@gmail.com
+        </a>
+        <a
+          href="tel:+94112707000"
+          className="hidden lg:flex text-slate-300 transition-all ease-in-out duration-500 hover:text-destructive py-3 mr-4 items-center"
+        >
+          <Phone className="h-3 w-3 mr-1" />
+          +94 11 270 7000
+        </a>
+      </div>
+
+
       <div className="flex h-16 items-center justify-between px-4 md:px-6">
         <Link to="/shop/home" className="flex items-center gap-2">
-          <HousePlug className="h-6 w-6" />
-          <span className="font-bold">Ecommerce</span>
+          <img src={logo} alt="logo" className="h-20 w-20 mt-3 lg:mt-4" />
         </Link>
         <Sheet>
           <SheetTitle className="sr-only">navigation menu</SheetTitle>

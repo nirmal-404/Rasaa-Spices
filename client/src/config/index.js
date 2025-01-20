@@ -141,7 +141,7 @@ export const shoppingViewHeaderMenuItems = [
 export const categoryOptionsMap = {
   spices: "Spices",
   powders: "Powders",
-  "crushed-and-roasted": "Crushed and Roasted",
+  "crushed-and-roasted": "Crushed & Roasted",
   "healthy-range-products": "Healthy Range",
 };
 
