@@ -7,10 +7,9 @@ import authRoutes from './routes/auth/auth-routes.js'
 import contactRoutes from './routes/comman/ContactUserRoutes.js'
 import adminProductRoutes from './routes/admin/products-routes.js'
 import shopProductRoutes from './routes/shop/products-routes.js'
-import cartProductsRoutes from './routes/shop/cart-routes.js'
+import shopCartRoutes from './routes/shop/cart-routes.js'
 import wishlistProductsRoutes from './routes/shop/wishlist-routes.js'
-
-
+import shopAddressRouter from './routes/shop/address-routes.js'
 
 const app = express();
 dotenv.config();
@@ -47,8 +46,13 @@ app.use(cookieParser());
 app.use(express.json());
 
 app.use("/api/auth", authRoutes);
+
 app.use("/api/contact", contactRoutes);
+
 app.use("/api/admin/products", adminProductRoutes);
+
 app.use("/api/shop/products", shopProductRoutes);
-app.use("/api/shop/cart", cartProductsRoutes);
+app.use("/api/shop/address", shopAddressRouter);
+
+app.use("/api/shop/cart", shopCartRoutes);
 app.use("/api/shop/wishlist", wishlistProductsRoutes);
