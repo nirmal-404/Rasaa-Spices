@@ -33,6 +33,11 @@ function AuthLogin() {
     });
   }
 
+  function isFormValid() {
+    return Object.keys(formData)
+        .map((key) => formData[key]?.trim() !== "")
+        .every((item) => item);
+}
   return (
     <div className="mx-auto w-full max-w-md space-y-6">
       <div className="text-center">
@@ -55,6 +60,7 @@ function AuthLogin() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isBtnDisabled={!isFormValid()}
       />
     </div>
   );
