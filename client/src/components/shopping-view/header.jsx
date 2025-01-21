@@ -1,4 +1,4 @@
-import logo from "../../assets/logo.png"
+import logo from "../../assets/images/logo.png"
 import { MapPin, LogOut, Menu, ShoppingCart, UserCog, Phone, MailOpen } from "lucide-react";
 import {
   Link,

@@ -21,6 +21,7 @@ function CommonForm({
     isBtnDisabled,
 }) {
 
+
     function renderInputsByComponentType(getControlItem) {
         let element = null;
         const value = formData[getControlItem.name] || "";
@@ -86,6 +87,9 @@ function CommonForm({
             case "phoneInput":
                 element = (
                     <PhoneInput
+                        international
+                        countryCallingCodeEditable={false}
+                        defaultCountry="LK"
                         placeholder={getControlItem.placeholder}
                         value={value}
                         onChange={(phoneNumber) =>

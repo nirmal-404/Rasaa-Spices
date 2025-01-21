@@ -7,8 +7,11 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 
 const initialState = {
-  userName: "",
+  firstName: "",
+  lastName: "",
   email: "",
+  gender: "",
+  phoneNumber: "",
   password: "",
 };
 
@@ -35,6 +38,11 @@ function AuthRegister() {
     });
   }
 
+  function isFormValid() {
+    return Object.keys(formData)
+        .map((key) => formData[key]?.trim() !== "")
+        .every((item) => item);
+}
   console.log(formData);
 
   return (
@@ -59,6 +67,7 @@ function AuthRegister() {
         formData={formData}
         setFormData={setFormData}
         onSubmit={onSubmit}
+        isBtnDisabled={!isFormValid()}
       />
     </div>
   );

@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
     phoneNumber: {
         type: String,
         required: true,
-        match: [/^\+\d{1,4}[\d\s\-]{7,15}$/, 'Please enter a valid Sri Lankan phone number starting with +94'],
+        match: [/^\+\d{1,4}[\d\s\-]{7,15}$/, 'Please enter a valid phone number starting with +'],
 
     },
     password: {
