@@ -76,8 +76,6 @@ function ShoppingProductTile({
           </Button>
         )}
       </CardFooter>
-
-
     </Card>
   );
 }

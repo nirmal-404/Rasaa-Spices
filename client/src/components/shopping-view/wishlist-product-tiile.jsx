@@ -1,12 +1,13 @@
 import { CircleCheckBig, Minus, Plus, ShoppingCart, Trash } from "lucide-react";
 import { Button } from "../ui/button";
-import { Card } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "../ui/use-toast";
 import { deleteWishlistItem, updateWishlistQuantity } from "@/store/shop/wishlist-slice";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { Separator } from "../ui/separator";
 
-function WishlistProductTile({ wishlistItem }) {
+function WishlistProductTile({ handleGetProductDetails, wishlistItem }) {
 
     const { user } = useSelector(state => state.auth)
     const { toast } = useToast();
@@ -65,15 +66,37 @@ function WishlistProductTile({ wishlistItem }) {
         })
     }
     return (
-        <Card className="flex items-center space-x-4 p-2">
-            <img
-                src={wishlistItem?.image}
-                alt={wishlistItem?.title}
-                className="w-20 h-20 rounded object-cover"
-            />
-            <div className="flex-1">
-                <h3 className="font-extrabold">{wishlistItem?.title}</h3>
-                <div className="flex items-center gap-2 mt-1">
+        <Card className="w-full max-w-sm mx-auto sm:max-w-md md:max-w-lg lg:max-w-xl">
+            <CardContent className="p-2">
+                <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+                    <img
+                        src={wishlistItem?.image}
+                        alt={wishlistItem?.title}
+                        className="w-20 h-20 mx-auto sm:mx-0 rounded-lg object-cover"
+                    />
+                    <div className="flex flex-col">
+                        <h3 className="mt-2 sm:mt-0 sm:ml-4 font-extrabold text-center sm:text-left">
+                            {wishlistItem?.title}
+                        </h3>
+
+                        <Button
+                            onClick={() => handleGetProductDetails(wishlistItem?.productId)}
+                            className="p-1 mx-auto h-auto" variant="outline">
+                            more info
+                        </Button>
+                    </div>
+                </div>
+
+                <Separator className="mt-2" />
+                <p className="font-semibold text-center sm:text-left mt-2">
+                    LKR {(
+                        (wishlistItem?.salePrice > 0 ? wishlistItem?.salePrice : wishlistItem?.price) *
+                        wishlistItem?.quantity
+                    ).toFixed(2)}
+                </p>
+            </CardContent>
+            <CardFooter className="flex flex-col sm:flex-row sm:justify-between gap-2">
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
                     <Button
                         variant="outline"
                         className={`h-8 w-8 rounded-full ${wishlistItem.quantity === 1 ? "cursor-not-allowed" : ""}`}
@@ -95,35 +118,24 @@ function WishlistProductTile({ wishlistItem }) {
                         <span className="sr-only">Increase</span>
                     </Button>
                 </div>
-            </div>
-            <div className="flex flex-col items-end">
-                <p className="font-semibold">
-                    LKR {(
-                        (wishlistItem?.salePrice > 0 ? wishlistItem?.salePrice : wishlistItem?.price) *
-                        wishlistItem?.quantity
-                    ).toFixed(2)}
-                </p>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center justify-center sm:justify-start space-x-2">
                     <Button
                         onClick={() => handleAddToCart(wishlistItem)}
-                        className=" bg-primary text-primary-foreground rounded p-1 mt-1 h-8 w-8">
-                        <ShoppingCart
-
-                            className="cursor-pointer"
-                            size={24}
-                        />
+                        className="bg-primary text-primary-foreground rounded p-1 mt-1 h-8 w-8"
+                    >
+                        <ShoppingCart className="cursor-pointer" size={24} />
                     </Button>
                     <Button
                         onClick={() => handleWishlistitemDelete(wishlistItem)}
-                        className="bg-destructive hover:bg-destructive hover:dark text-destructive-foreground rounded p-1 mt-1 h-8 w-8">
-                        <Trash
-                            className="cursor-pointer"
-                            size={24}
-                        />
+                        className="bg-destructive hover:bg-destructive hover:dark text-destructive-foreground rounded p-1 mt-1 h-8 w-8"
+                    >
+                        <Trash className="cursor-pointer" size={24} />
                     </Button>
                 </div>
-            </div>
+            </CardFooter>
+
         </Card>
+
     );
 }
 

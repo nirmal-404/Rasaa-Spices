@@ -19,7 +19,7 @@ function ShoppingAccount() {
     dispatch(fetchWishlistItems(user?.id));
   }, [dispatch]);
 
-  // console.log(wishlistItems, "WL items");
+  console.log(wishlistItems, "WL items");
   
   return (
     <div className="flex flex-col mt-4">
