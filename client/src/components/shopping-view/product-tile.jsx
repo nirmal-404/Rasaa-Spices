@@ -2,11 +2,12 @@ import { Card, CardContent, CardFooter } from "../ui/card";
 import { Button } from "../ui/button";
 import { categoryOptionsMap } from "@/config";
 import { Badge } from "../ui/badge";
-
+import { Heart, ShoppingCart } from "lucide-react"
 function ShoppingProductTile({
   product,
   handleGetProductDetails,
   handleAddtoCart,
+  handleAddtoWishlist,
 }) {
   return (
     <Card className="w-full max-w-sm mx-auto">
@@ -53,20 +54,30 @@ function ShoppingProductTile({
           </div>
         </CardContent>
       </div>
-      <CardFooter>
+      <CardFooter className="flex flex-col space-y-2 items-center">
+        <Button
+          onClick={() => handleAddtoWishlist(product?._id)}
+          className="flex items-center w-full"
+        >
+          <span className="hidden lg:block">Add to wishlist</span>
+          <Heart />
+        </Button>
         {product?.totalStock === 0 ? (
-          <Button className="w-full opacity-60 cursor-not-allowed">
-            Out Of Stock
+          <Button className="flex items-center w-full opacity-60 cursor-not-allowed">
+            <span className="hidden lg:block">Out Of Stock</span>
           </Button>
         ) : (
           <Button
             onClick={() => handleAddtoCart(product?._id, product?.totalStock)}
-            className="w-full"
+            className="flex items-center w-full"
           >
-            Add to cart
+            <span className="hidden lg:block">Add to cart</span>
+            <ShoppingCart />
           </Button>
         )}
       </CardFooter>
+
+
     </Card>
   );
 }

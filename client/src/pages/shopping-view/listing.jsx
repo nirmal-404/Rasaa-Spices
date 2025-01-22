@@ -13,7 +13,8 @@ import { useToast } from "@/components/ui/use-toast";
 import { sortOptions } from "@/config";
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import { fetchAllFilteredProducts, fetchProductDetails } from "@/store/shop/products-slice";
-import { ArrowUpDownIcon } from "lucide-react";
+import { addToWishlist } from "@/store/shop/wishlist-slice";
+import { ArrowUpDownIcon, CircleCheckBig } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
@@ -78,12 +79,33 @@ function ShoppingListing() {
       if (data?.payload?.success) {
         dispatch(fetchCartItems(user?.id));
         toast({
-          title: "Product added to cart",
+          title: (
+            <span className="flex gap-1">
+              Item added to cart <CircleCheckBig className="text-green-500" strokeWidth={3} />
+            </span>
+          ),
         })
       }
     })
   }
 
+  function handleAddtoWishlist(getCurrentProductId) {
+    // console.log(getCurrentProductId, "prID")
+    dispatch(addToWishlist({ userId: user?.id, productId: getCurrentProductId, quantity: 1 })
+    ).then(data => {
+      if (data?.payload?.success) {
+        // dispatch(fetchWishlistItems(user?.id));
+        toast({
+          title: (
+            <span className="flex gap-1">
+              Item added to wishlist <CircleCheckBig className="text-green-500" strokeWidth={3} />
+            </span>
+          ),
+        })
+      }
+    }
+    )
+  }
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
@@ -152,6 +174,7 @@ function ShoppingListing() {
                 handleGetProductDetails={handleGetProductDetails}
                 product={productItem}
                 handleAddtoCart={handleAddtoCart}
+                handleAddtoWishlist={handleAddtoWishlist}
                 key={productItem._id}
               />
             ))

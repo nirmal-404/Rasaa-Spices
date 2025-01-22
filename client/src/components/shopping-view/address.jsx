@@ -62,29 +62,20 @@ function Address() {
                 )
             } else {
                 console.log(addressList.length);
-                
+
                 toast({
                     title: `Only 3 addresses can be added curent count ${addressList.length}`,
                     varient: "destructive"
                 })
             }
         }
-
-
-
     }
-
-
-
-
-
 
     function isFormValid() {
         return Object.keys(formData)
             .map((key) => formData[key]?.trim() !== "")
             .every((item) => item);
     }
-
 
     function handleEditAddress(getCurrentAddress) {
         setCurrentEditedId(getCurrentAddress?._id)
@@ -118,38 +109,32 @@ function Address() {
 
     return (
         <Card>
-            <div className="mb-3 p-3 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
-                {
-                    addressList && addressList.length > 0 ?
-                        addressList.map(address =>
-                            <AddressCard
-                                addressInfo={address}
-                                handleDeleteAddress={handleDeleteAddress}
-                                setCurrentEditedId={setCurrentEditedId}
-                                handleEditAddress={handleEditAddress}
-                                key={address._id}
-                            />) :
-                        null
-                }
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+                {addressList && addressList.length > 0 ?
+                    addressList.map(address =>
+                        <AddressCard
+                            addressInfo={address}
+                            handleDeleteAddress={handleDeleteAddress}
+                            setCurrentEditedId={setCurrentEditedId}
+                            handleEditAddress={handleEditAddress}
+                            key={address._id}
+                        />) :
+                    null}
             </div>
             <CardHeader>
                 <CardTitle>
-                    {
-                        currentEditedId !== null ?
-                            "Edit Address" :
-                            "Add New Address"
-                    }
+                    {currentEditedId !== null ?
+                        "Edit Address" :
+                        "Add New Address"}
                 </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
                 <CommonForm
                     formControls={addressFormControls}
                     formData={formData} setFormData={setFormdata}
-                    buttonText={
-                        currentEditedId !== null ?
-                            "Edit" :
-                            "Add"
-                    }
+                    buttonText={currentEditedId !== null ?
+                        "Edit" :
+                        "Add"}
                     onSubmit={handleManageAddress}
                     isBtnDisabled={!isFormValid()}
                 />
