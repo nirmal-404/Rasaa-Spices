@@ -3,40 +3,38 @@ import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import { Dialog } from "../ui/dialog";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
-import ShoppingOrderDetailsView from "./order-details";
+import AdminOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrdersByUserId, getOrderDetails, resetOrderDetails } from "@/store/shop/order-slice";
+import { DialogPortal } from "@radix-ui/react-dialog";
+import { getAllOrdersForAdmin, getOrderDetailsForAdmin, resetOrderDetails } from "@/store/admin/order-slice";
 import { Badge } from "../ui/badge";
 
 
-
-
-function ShoppingOrders() {
+function AdminOrdersView() {
 
     const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+    const { orderList, orderDetails } = useSelector(state => state.adminOrder)
     const dispatch = useDispatch()
-    const { user } = useSelector(state => state.auth)
-    const { orderList, orderDetails } = useSelector((state) => state.shopOrder);
 
     function handleFetchOrderDetails(getId) {
-        dispatch(getOrderDetails(getId));
+        dispatch(getOrderDetailsForAdmin(getId))
     }
 
     useEffect(() => {
-        dispatch(getAllOrdersByUserId(user?.id));
-    }, [dispatch]);
+        dispatch(getAllOrdersForAdmin())
+    }, [dispatch])
 
     useEffect(() => {
         if (orderDetails !== null) setOpenDetailsDialog(true);
     }, [orderDetails]);
-
     // console.log(orderList, "orderList");
     console.log(orderDetails, "orderDetails");
+
 
     return (
         <Card>
             <CardHeader>
-                <CardTitle>Order History</CardTitle>
+                <CardTitle>All Orders</CardTitle>
             </CardHeader>
             <CardContent>
                 <Table>
@@ -80,10 +78,11 @@ function ShoppingOrders() {
                                             className="max-h-[400px] overflow-hidden my-1"
                                         >
                                             <Button
-                                                onClick={() => handleFetchOrderDetails(orderItem?._id)}>
+                                                onClick={() => handleFetchOrderDetails(orderItem?._id)}
+                                            >
                                                 View Details
                                             </Button>
-                                            <ShoppingOrderDetailsView orderDetails={orderDetails} />
+                                            <AdminOrderDetailsView orderDetails={orderDetails} />
                                         </Dialog>
                                     </TableCell>
                                 </TableRow>
@@ -96,4 +95,4 @@ function ShoppingOrders() {
     );
 }
 
-export default ShoppingOrders;
+export default AdminOrdersView;
