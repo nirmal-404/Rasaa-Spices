@@ -21,6 +21,22 @@ function Wishlist({ wishlistItems }) {
     }, [productDetails])
     return (
         <div>
+
+        <div className="flex">
+            {/* submitedQoutes */}
+                {/* -----rewspponse data -> obj.iterate(<QuoteCard item={item}>) */}
+                    {/* quooteCard  item*/}
+{/* quantity, name, price, userge, status */}
+                        {/* item.quanti */}
+
+            {/* form */}
+        </div>
+
+
+
+
+
+
             <Card className="grid grid-cols-1 md:grid-cols-2 gap-2 p-4 md:p-6">
                 {
                     wishlistItems && wishlistItems.length > 0 ?
@@ -44,3 +60,22 @@ function Wishlist({ wishlistItems }) {
 }
 
 export default Wishlist;
+
+
+
+
+
+//     Quotes - 
+
+//
+//          submitted quotes 
+//          form 
+//          
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 

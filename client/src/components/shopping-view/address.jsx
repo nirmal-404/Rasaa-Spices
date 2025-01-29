@@ -15,8 +15,7 @@ const initialAddressFormData = {
     notes: "",
 }
 
-function Address() {
-
+function Address({ setCurrentSelectedAddress }) {
     const [formData, setFormdata] = useState(initialAddressFormData)
     const [currentEditedId, setCurrentEditedId] = useState(null)
     const dispatch = useDispatch()
@@ -109,7 +108,7 @@ function Address() {
 
     return (
         <Card>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                 {addressList && addressList.length > 0 ?
                     addressList.map(address =>
                         <AddressCard
@@ -117,6 +116,7 @@ function Address() {
                             handleDeleteAddress={handleDeleteAddress}
                             setCurrentEditedId={setCurrentEditedId}
                             handleEditAddress={handleEditAddress}
+                            setCurrentSelectedAddress={setCurrentSelectedAddress}
                             key={address._id}
                         />) :
                     null}
