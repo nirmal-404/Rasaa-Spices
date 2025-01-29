@@ -37,6 +37,7 @@ function ShoppingAccount() {
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
               <TabsTrigger value="wishList">WishList</TabsTrigger>
+              <TabsTrigger value="quote">submit a quote</TabsTrigger>
             </TabsList>
 
             <TabsContent value="orders">
@@ -49,6 +50,10 @@ function ShoppingAccount() {
 
             <TabsContent value="wishList">
               <Wishlist wishlistItems={wishlistItems && wishlistItems.items && wishlistItems.items.length > 0 ? wishlistItems.items : []} />
+            </TabsContent>
+            
+            <TabsContent value="quote">
+              {/* your component */}
             </TabsContent>
           </Tabs>
         </div>

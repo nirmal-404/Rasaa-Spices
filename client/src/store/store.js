@@ -9,6 +9,7 @@ import shopCartSlice from "./shop/cart-slice";
 import shopWishlistSlice from "./shop/wishlist-slice";
 import shopAddressSlice from "./shop/address-slice";
 import shopOrderSlice from "./shop/order-slice";
+import shopSearchSlice from "./shop/search-slice";
 
 const logger = createLogger();
 
@@ -24,6 +25,8 @@ const store = configureStore({
     shopWishlist: shopWishlistSlice,
     shopAddress: shopAddressSlice,
     shopOrder: shopOrderSlice,
+    shopSearch: shopSearchSlice,
+
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(logger),
