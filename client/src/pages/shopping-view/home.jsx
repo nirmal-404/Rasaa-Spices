@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom"
 import { addToCart, fetchCartItems } from "@/store/shop/cart-slice"
 import { useToast } from "@/components/ui/use-toast"
 import ProductDetailsDialog from "@/components/shopping-view/product-details"
+import { getHeroImages } from "@/store/common-slice/hero-slice"
 
 const categoriesWithIcons = [
   { id: "spices", label: "Spices", icon: SpicesCategoryImage },
@@ -32,11 +33,14 @@ function ShoppingHome() {
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
 
   const { user } = useSelector(state => state.auth)
-  const slides = [BannerOne, BannerTwo, BannerThree]
+  // const slides = [BannerOne, BannerTwo, BannerThree]
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const { toast } = useToast()
+  const heroImages = useSelector(state => state.commonHero)
 
+  // console.log(heroImages);
+  
   function handleNavigateToListingPage(getCurrentItem, section) {
     sessionStorage.removeItem("filters")
 
@@ -70,38 +74,48 @@ function ShoppingHome() {
   }, [productDetails])
 
   useEffect(() => {
+    if (!heroImages?.heroImageList || heroImages?.heroImageList.length === 0) return;
+  
     const timer = setInterval(() => {
-      setCurrentSlide(prevSlide => (prevSlide + 1) % slides.length)
-    }, 5000)
-
-    return () => clearInterval(timer)
-  }, [])
+      setCurrentSlide((prevSlide) => (prevSlide + 1) % heroImages?.heroImageList.length);
+    }, 3000);
+  
+    return () => clearInterval(timer);
+  }, [heroImages?.heroImageList]);
+  
 
   useEffect(() => {
     dispatch(fetchAllFilteredProducts({ filterParams: {}, sortParams: 'price-low-to-high' }))
   }, [dispatch])
 
+  useEffect(() => {
+    dispatch(getHeroImages())
+  }, [dispatch])
   // console.log(productList, "productList");
 
   return (
     <div className="flex flex-col min-h-screen">
       <div className="relative w-full h-[600px] overflow-hidden">
-        {slides.map((slide, index) => (
+        {
+          
+          heroImages && heroImages?.heroImageList && heroImages?.heroImageList.length > 0 ?
+          heroImages?.heroImageList.map((slide, index) => (
           <img
-            src={slide}
+            src={slide?.image}
             key={index}
             className={`${index === currentSlide ? "opacity-100" : "opacity-0"
               } absolute top-5 left-0 w-full h-full object-cover transition-opacity duration-1000`}
           />
-        ))}
+        )) : null
+      }
         <Button
           varient="outline"
           size="icon"
           onClick={() =>
             setCurrentSlide(
               (prevSlide) =>
-                (prevSlide - 1 + slides.length) %
-                slides.length
+                (prevSlide - 1 + heroImages?.heroImageList.length) %
+              heroImages?.heroImageList.length
             )
           }
           className="absolute top-1/2 left-4 transform translate-y-1/2 bg-white/80 text-primary hover:bg-slate-200">
@@ -113,7 +127,7 @@ function ShoppingHome() {
           size="icon"
           onClick={() =>
             setCurrentSlide(
-              (prevSlide) => (prevSlide + 1) % slides.length
+              (prevSlide) => (prevSlide + 1) % heroImages?.heroImageList.length
             )
           }
           className="absolute top-1/2 right-4 transform translate-y-1/2 bg-white/80 text-primary hover:bg-slate-200">
