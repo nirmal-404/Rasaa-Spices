@@ -1,7 +1,7 @@
 # MERN Stack Project
 
 ## Project Overview
-This project is a MERN (MongoDB, Express, React, Node.js) stack-based web application designed to streamline project management. Each group member has a dedicated branch to implement complete CRUD functionality. Additionally, we utilize modern libraries and tools like Vite, Radix UI, and Shadcn UI to enhance development and user experience.
+This project is a MERN (MongoDB, Express, React, Node.js) stack-based web application designed to demonstrate the actions of an ecommerce system. Each group member has a dedicated branch to implement complete CRUD functionality. Additionally, we utilize modern libraries and tools like Vite, Radix UI, and Shadcn UI to enhance development and user experience.
 
 ## Branching Structure
 - **Default branch:** `main`
@@ -99,9 +99,9 @@ The application will be available at `http://localhost:5173` by default.
 - **Tailwind CSS**: Utility-first CSS framework for rapid UI development
 
 ### Backend
-- **Node.js**: JavaScript runtime environment
-- **Express**: Lightweight web application framework
-- **MongoDB**: NoSQL database for storing project data
+- **Node.js**
+- **Express**
+- **MongoDB**
 
 ### State Management
 - **Redux**: For managing global state in the application
