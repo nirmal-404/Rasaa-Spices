@@ -5,9 +5,28 @@ This project is a MERN (MongoDB, Express, React, Node.js) stack-based web applic
 
 ## Branching Structure
 - **Default branch:** `main`
-- **Feature branches:** Each group member will have two branches for development. I have created them for you
+- **Feature branches:** Each group member will have a branch for development.
 
 ## Features
+   - **Add new products**
+   - **Edit info of existing products**
+   - **Delete/remove existing products**
+     
+   - **Add items to cart**
+   - **Update cart quantity**
+   - **Remove items from cart**
+
+   - **Add new addresses (upto 3)**
+   - **Edit address info**
+   - **Delete addresses**
+     
+   - **Checkout**
+      - paypal
+      - payhere
+     
+   - **Add items to wishlist**
+   - **Update wishlist items quantity**
+   - **Remove items from wishlist**
 
 ---
 
