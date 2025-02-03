@@ -13,7 +13,8 @@ function ProductImageUpload({
     uploadedImageUrl,
     setUploadedImageUrl,
     setImageLoadingState,
-    isEditMode
+    isEditMode,
+    isCustomStyling = false,
 }) {
     console.log(isEditMode, "isEditMode")
     const inputRef = useRef(null);
@@ -59,7 +60,8 @@ function ProductImageUpload({
         if (imageFile !== null) uploadImageToCloudinary()
     }, [imageFile])
     return (
-        <div className="w-full max-w-md mx-auto">
+        isCustomStyling,
+        <div className={`w-full ${isCustomStyling ? "" : "max-w-md mx-auto"}`}>
             <label className="text-lg font-semibold mb-2 block">Upload Image</label>
             <div onDragOver={handleDragOver} onDrop={handleDrop}
                 className={

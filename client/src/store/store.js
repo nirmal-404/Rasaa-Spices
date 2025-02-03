@@ -12,6 +12,8 @@ import shopOrderSlice from "./shop/order-slice";
 import shopSearchSlice from "./shop/search-slice";
 import shopReviewSlice from "./shop/review-slice";
 
+import commonHeroSlice from "./common-slice/hero-slice"
+
 const logger = createLogger();
 
 const store = configureStore({
@@ -29,6 +31,7 @@ const store = configureStore({
     shopSearch: shopSearchSlice,
     shopReview: shopReviewSlice,
 
+    commonHero: commonHeroSlice,
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(logger),
