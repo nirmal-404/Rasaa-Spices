@@ -91,13 +91,13 @@ function HeaderRightContent() {
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black">
             <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.firstName[0].toUpperCase() + user?.lastName[0].toUpperCase()}
+              {user?.firstName[0] + user?.lastName[0]}
             </AvatarFallback>
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent side="right" className="w-56">
           <DropdownMenuLabel>Logged in as {
-            user?.firstName.charAt(0).toUpperCase() + user?.firstName.slice(1).toLowerCase() + " " + user?.lastName.charAt(0).toUpperCase() + user?.lastName.slice(1).toLowerCase()
+            user?.firstName + " " + user?.lastName
           }
           </DropdownMenuLabel>
           <DropdownMenuSeparator />

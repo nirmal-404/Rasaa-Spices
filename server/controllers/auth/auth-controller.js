@@ -6,11 +6,23 @@ import bcrypt from 'bcryptjs';
 
 dotenv.config();
 
-
+function processName(name) {
+    return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
+}
 // register a user
 export const registerUser = async (req, res) => {
     const { firstName, lastName, email, gender, phoneNumber, password } = req.body;
 
+    const requiredFields = ["firstName", "lastName", "email", "gender", "phoneNumber", "password"];
+
+    for (const field of requiredFields) {
+        if (!req.body[field]) {
+            return res.status(400).json({ error: `Missing or empty field: ${field}` });
+        }
+    }
+
+    const processedFirstName = processName(firstName)
+    const processedLasttName = processName(lastName)
     try {
         const existUser = await User.findOne({ email });
 
@@ -23,8 +35,8 @@ export const registerUser = async (req, res) => {
 
         const hashPassword = await bcrypt.hash(password, 12);
         const newUser = new User({
-            firstName,
-            lastName,
+            firstName: processedFirstName,
+            lastName: processedLasttName,
             email,
             gender,
             phoneNumber,
