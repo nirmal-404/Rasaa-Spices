@@ -99,13 +99,9 @@ Each team member works on their respective branches. Follow these steps:
    ````bash
    git add .
    ````
-   or 
-   ```bash
-   git add filename.extention
-   ````
 2. Commit your changes with meaningful messages:
    ```bash
-   git commit -m "Add feature: <description>"
+   git commit -m "<description>"
    ```
 3. Push your changes to the remote branch:
    ```bash
