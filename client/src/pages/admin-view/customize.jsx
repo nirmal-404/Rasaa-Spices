@@ -1,7 +1,7 @@
 import ProductImageUpload from "@/components/admin-view/image-upload";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { addHeroImage, getHeroImages } from "@/store/common-slice/hero-slice";
+import { addHeroImage, deleteHeroImage, getHeroImages } from "@/store/common-slice/hero-slice";
 import { Trash } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,6 +29,16 @@ function AdminEditHero() {
     })
   }
 
+  function handleDeleteHeroImage(getHeroImageId) {
+    dispatch(deleteHeroImage(getHeroImageId)).then((data) => {
+      if (data?.payload?.success) {
+        dispatch(getHeroImages());
+        toast({
+          title: 'Hero Image deleted successfully',
+        })
+      }
+    });
+  }
   useEffect(() => {
     dispatch(getHeroImages())
   }, [dispatch])
@@ -57,7 +67,12 @@ function AdminEditHero() {
             heroImages?.heroImageList.map(img => (
               <div className="relative group" key={img?._id}>
                 <div className="absolute inset-0 flex items-center justify-center text-white bg-black bg-opacity-50 px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                  <Button className="bg-destructive hover:bg-destructive"><Trash className="text-accent" /></Button>
+                  <Button
+                  onClick={()=> handleDeleteHeroImage(img?._id)}
+                    className="bg-destructive hover:bg-destructive"
+                  >
+                    <Trash className="text-accent" />
+                  </Button>
                 </div>
                 <img
                   src={img?.image}
