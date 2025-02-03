@@ -29,6 +29,17 @@ export const addHeroImage = createAsyncThunk(
   }
 );
 
+export const deleteHeroImage = createAsyncThunk(
+  "/products/deleteHeroImage",
+  async (id) => {
+    const result = await axios.delete(
+      `http://localhost:5000/api/common/hero/delete/${id}`
+    );
+
+    return result?.data;
+  }
+);
+
 const heroSlice = createSlice({
   name: "commonSlice",
   initialState,
