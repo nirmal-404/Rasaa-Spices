@@ -1,4 +1,6 @@
 import CommonForm from "@/components/common/form";
+import { Button } from "@/components/ui/button";
+import { DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useToast } from "@/components/ui/use-toast";
 import { registerFormControls } from "@/config";
 import { registerUser } from "@/store/auth-slice";
@@ -15,7 +17,7 @@ const initialState = {
   password: "",
 };
 
-function AuthRegister() {
+function AuthRegister({ handleLoginDialogOpen }) {
   const [formData, setFormData] = useState(initialState);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -40,36 +42,43 @@ function AuthRegister() {
 
   function isFormValid() {
     return Object.keys(formData)
-        .map((key) => formData[key]?.trim() !== "")
-        .every((item) => item);
-}
+      .map((key) => formData[key]?.trim() !== "")
+      .every((item) => item);
+  }
   console.log(formData);
 
   return (
-    <div className="mx-auto w-full max-w-md space-y-6">
-      <div className="text-center">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">
-          Create new account
-        </h1>
-        <p className="mt-2">
-          Already have an account
-          <Link
-            className="font-medium ml-2 text-primary hover:underline"
-            to="/auth/login"
-          >
-            Login
-          </Link>
-        </p>
+    <DialogContent className="sm:max-w-[425px]">
+      <DialogHeader>
+        <DialogTitle className="sr-only">register</DialogTitle>
+        <DialogDescription></DialogDescription>
+      </DialogHeader>
+      <div className="mx-auto w-full max-w-md space-y-6">
+        <div className="text-center">
+          <h1 className="text-3xl font-bold tracking-tight text-foreground">
+            Create new account
+          </h1>
+          <p className="mt-2">
+            Already have an account ?
+            <Button
+              onClick={handleLoginDialogOpen}
+              variant="outline"
+              className="p-1 ml-2 h-8"
+            >
+              Login
+            </Button>
+          </p>
+        </div>
+        <CommonForm
+          formControls={registerFormControls}
+          buttonText={"Sign Up"}
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={onSubmit}
+          isBtnDisabled={!isFormValid()}
+        />
       </div>
-      <CommonForm
-        formControls={registerFormControls}
-        buttonText={"Sign Up"}
-        formData={formData}
-        setFormData={setFormData}
-        onSubmit={onSubmit}
-        isBtnDisabled={!isFormValid()}
-      />
-    </div>
+    </DialogContent>
   );
 }
 
