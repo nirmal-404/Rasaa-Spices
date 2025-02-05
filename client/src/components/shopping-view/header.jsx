@@ -25,6 +25,19 @@ import { useEffect, useState } from "react";
 import { Label } from "../ui/label";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "../ui/dialog"
+import { Input } from "../ui/input"
+import AuthLogin from "@/pages/auth/login";
+import AuthRegister from "@/pages/auth/register";
+
 function MenuItems() {
   const navigate = useNavigate();
 
@@ -51,6 +64,8 @@ function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
   const [openCartSheet, setOpenCartSheet] = useState(false);
+  const [openRegisterDialog, setOpenRegisterDialog] = useState(false)
+  const [openLoginDialog, setOpenLoginDialog] = useState(false)
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -58,66 +73,110 @@ function HeaderRightContent() {
     dispatch(logoutUser());
   }
 
+  function handleLoginDialogOpen(event) {
+    event.preventDefault();
+    setOpenRegisterDialog(false)
+    setOpenLoginDialog(true)
+  }
+
+  function handleRegisterDialogOpen(event) {
+    event.preventDefault();
+    setOpenLoginDialog(false)
+    setOpenRegisterDialog(true)
+  }
+
   useEffect(() => {
-    dispatch(fetchCartItems(user?.id));
-  }, [dispatch]);
+    if (user) {
+      dispatch(fetchCartItems(user?.id));
+    }
+  }, [dispatch, user]);
 
   // console.log(cartItems, "cartItems");
+  // console.log(openRegisterDialog);
 
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
-        <SheetTitle></SheetTitle>
-        <SheetDescription></SheetDescription>
-        <Button
-          onClick={() => setOpenCartSheet(true)}
-          variant="outline"
-          size="icon"
-          className="relative"
-        >
-          <ShoppingCart className="w-6 h-6" />
-          <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
-            {cartItems?.items?.length || 0}
-          </span>
-          <span className="sr-only">User cart</span>
-        </Button>
-        <UserCartWrapper
-          setOpenCartSheet={setOpenCartSheet}
-          cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}
-        />
-      </Sheet>
 
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Avatar className="bg-black">
-            <AvatarFallback className="bg-black text-white font-extrabold">
-              {user?.firstName[0] + user?.lastName[0]}
-            </AvatarFallback>
-          </Avatar>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent side="right" className="w-56">
-          <DropdownMenuLabel>Logged in as {
-            user?.firstName + " " + user?.lastName
-          }
-          </DropdownMenuLabel>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={() => navigate("/shop/account")}>
-            <UserCog className="mr-2 h-4 w-4" />
-            Account
-          </DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem onClick={handleLogout}>
-            <LogOut className="mr-2 h-4 w-4" />
-            Logout
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+      {
+        user ?
+          <>
+            <Sheet open={openCartSheet} onOpenChange={() => setOpenCartSheet(false)}>
+              <SheetTitle></SheetTitle>
+              <SheetDescription></SheetDescription>
+              <Button
+                onClick={() => setOpenCartSheet(true)}
+                variant="outline"
+                size="icon"
+                className="relative"
+              >
+                <ShoppingCart className="w-6 h-6" />
+                <span className="absolute top-[-5px] right-[2px] font-bold text-sm">
+                  {cartItems?.items?.length || 0}
+                </span>
+                <span className="sr-only">User cart</span>
+              </Button>
+              <UserCartWrapper
+                setOpenCartSheet={setOpenCartSheet}
+                cartItems={cartItems && cartItems.items && cartItems.items.length > 0 ? cartItems.items : []}
+              />
+            </Sheet>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Avatar className="bg-black">
+                  <AvatarFallback className="bg-black text-white font-extrabold">
+                    {user?.firstName[0] + user?.lastName[0]}
+                  </AvatarFallback>
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent side="right" className="w-56">
+                <DropdownMenuLabel>Logged in as {
+                  user?.firstName + " " + user?.lastName
+                }
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={() => navigate("/shop/account")}>
+                  <UserCog className="mr-2 h-4 w-4" />
+                  Account
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem onClick={handleLogout}>
+                  <LogOut className="mr-2 h-4 w-4" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </> :
+          <>
+            <Button onClick={handleLoginDialogOpen}>Login</Button>
+            <Button onClick={handleRegisterDialogOpen}>Signup</Button>
+          </>
+      }
+
+
+      <Dialog
+        open={openLoginDialog}
+        onOpenChange={() => {
+          setOpenLoginDialog(false);
+        }}
+      >
+        <AuthLogin handleRegisterDialogOpen={handleRegisterDialogOpen} />
+      </Dialog>
+
+      <Dialog
+        open={openRegisterDialog}
+        onOpenChange={() => {
+          setOpenRegisterDialog(false);
+        }}
+      >
+        <AuthRegister handleLoginDialogOpen={handleLoginDialogOpen}/>
+      </Dialog>
+
     </div>
   );
 }
 
 function ShoppingHeader() {
-  const { isAuthenticated } = useSelector((state) => state.auth);
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
