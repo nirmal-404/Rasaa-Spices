@@ -45,7 +45,7 @@ function AuthRegister({ handleLoginDialogOpen }) {
       .map((key) => formData[key]?.trim() !== "")
       .every((item) => item);
   }
-  console.log(formData);
+  // console.log(formData);
 
   return (
     <DialogContent className="sm:max-w-[425px]">

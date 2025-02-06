@@ -207,3 +207,43 @@ export const addressFormControls = [
     placeholder: "Enter any additional notes",
   },
 ];
+
+export const contactUsFormControls = [
+  {
+    name: "name",
+    label: "Name",
+    placeholder: "Enter your first name",
+    componentType: "input",
+    type: "text",
+  },
+  {
+    name: "email",
+    label: "Email",
+    placeholder: "Enter your email",
+    componentType: "input",
+    type: "email",
+  },
+  {
+    name: "phoneNumber",
+    label: "Phone Number",
+    placeholder: "Enter your phone number",
+    componentType: "phoneInput",
+  },
+  {
+    name: "inquiryType",
+    label: "Inquiry Type",
+    componentType: "select",
+    options: [
+      { id: "report", label: "Report an issue" },
+      { id: "support", label: "Seek for assistance" },
+      { id: "other", label: "Other" },
+    ],
+  },
+  {
+    name: "message",
+    label: "Message",
+    placeholder: "Enter your message",
+    componentType: "textarea",
+  },
+
+];

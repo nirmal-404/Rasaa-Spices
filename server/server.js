@@ -6,17 +6,18 @@ import cors from 'cors'
 import authRoutes from './routes/auth/auth-routes.js'
 
 import adminProductRoutes from './routes/admin/products-routes.js'
-import adminOrderRouter from "./routes/admin/order-routes.js"
+import adminOrderRoutes from "./routes/admin/order-routes.js"
+import adminContactRoutes from "./routes/admin/contactus-routes.js"
 
 import shopProductRoutes from './routes/shop/products-routes.js'
 import shopCartRoutes from './routes/shop/cart-routes.js'
 import wishlistProductsRoutes from './routes/shop/wishlist-routes.js'
-import shopAddressRouter from './routes/shop/address-routes.js'
-import shopOrderRouter from "./routes/shop/order-routes.js"
-import shopSearchRouter from "./routes/shop/search-routes.js"
-import shopReviewRouter from "./routes/shop/review-routes.js"
+import shopAddressRoutes from './routes/shop/address-routes.js'
+import shopOrderRoutes from "./routes/shop/order-routes.js"
+import shopSearchRoutes from "./routes/shop/search-routes.js"
+import shopReviewRoutes from "./routes/shop/review-routes.js"
+import shopContactRoutes from "./routes/shop/contactus-routes.js"
 
-import contactRoutes from './routes/common/ContactUserRoutes.js'
 import heroImgRoutes from './routes/common/hero-image-routes.js'
 
 const app = express();
@@ -56,16 +57,18 @@ app.use(express.json());
 app.use("/api/auth", authRoutes);
 
 app.use("/api/admin/products", adminProductRoutes);
-app.use("/api/admin/orders", adminOrderRouter);
+app.use("/api/admin/orders", adminOrderRoutes);
+app.use("/api/admin/contact", adminContactRoutes);
 
 app.use("/api/shop/products", shopProductRoutes);
-app.use("/api/shop/address", shopAddressRouter);
+app.use("/api/shop/address", shopAddressRoutes);
 app.use("/api/shop/cart", shopCartRoutes);
 app.use("/api/shop/wishlist", wishlistProductsRoutes);
-app.use("/api/shop/order", shopOrderRouter);
-app.use("/api/shop/search", shopSearchRouter);
-app.use("/api/shop/review", shopReviewRouter);
+app.use("/api/shop/order", shopOrderRoutes);
+app.use("/api/shop/search", shopSearchRoutes);
+app.use("/api/shop/review", shopReviewRoutes);
+app.use("/api/shop/contact", shopContactRoutes);
 
-app.use("/api/common/contact", contactRoutes);
+
 app.use("/api/common/hero", heroImgRoutes);
 

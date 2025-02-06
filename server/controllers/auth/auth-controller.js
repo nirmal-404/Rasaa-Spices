@@ -167,6 +167,7 @@ export const loginUser = async (req, res) => {
                 id: checkUser._id,
                 role: checkUser.role,
                 email: checkUser.email,
+                phoneNumber: checkUser.phoneNumber,
                 firstName: checkUser.firstName,
                 lastName: checkUser.lastName,
                 image: checkUser.image
