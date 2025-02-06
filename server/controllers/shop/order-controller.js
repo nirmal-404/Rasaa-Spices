@@ -48,8 +48,8 @@ export const createOrder = async (req, res) => {
                 },
             ],
             application_context: {
-                return_url: "http://localhost:5173/shop/paypal-return",
-                cancel_url: "http://localhost:5173/shop/paypal-cancel",
+                return_url: `${process.env.CLIENT_BASE_URL}/shop/paypal-return`,
+                cancel_url: `${process.env.CLIENT_BASE_URL}/shop/paypal-cancel`,
             },
         });
 

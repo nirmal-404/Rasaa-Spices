@@ -10,7 +10,7 @@ export const getAllContactForms = createAsyncThunk(
     "contact/getAllContactForms",
     async () => {
         const response = await axios.get(
-            "http://localhost:5000/api/admin/contact/"
+            `${import.meta.env.VITE_API_URL}/api/admin/contact/`
         );
         return response.data;
     }
@@ -20,7 +20,7 @@ export const deleteContactForm = createAsyncThunk(
     "contact/deleteContactForm",
     async (id) => {
         const response = await axios.delete(
-            `http://localhost:5000/api/admin/contact/${id}`
+            `${import.meta.env.VITE_API_URL}/api/admin/contact/${id}`
         );
         return response.data;
     }

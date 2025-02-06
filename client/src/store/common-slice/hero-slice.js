@@ -10,7 +10,7 @@ export const getHeroImages = createAsyncThunk(
   "/order/getHeroImages",
   async () => {
     const response = await axios.get(
-      `http://localhost:5000/api/common/hero/get`
+      `${import.meta.env.VITE_API_URL}/api/common/hero/get`
     );
 
     return response.data;
@@ -21,7 +21,7 @@ export const addHeroImage = createAsyncThunk(
   "/order/addHeroImage",
   async (image) => {
     const response = await axios.post(
-      `http://localhost:5000/api/common/hero/add`,
+      `${import.meta.env.VITE_API_URL}/api/common/hero/add`,
       { image }
     );
 
@@ -33,7 +33,7 @@ export const deleteHeroImage = createAsyncThunk(
   "/products/deleteHeroImage",
   async (id) => {
     const result = await axios.delete(
-      `http://localhost:5000/api/common/hero/delete/${id}`
+      `${import.meta.env.VITE_API_URL}/api/common/hero/delete/${id}`
     );
 
     return result?.data;
