@@ -10,7 +10,7 @@ export const submitContactForm = createAsyncThunk(
   "contact/submitContactForm",
   async (formData) => {
     const response = await axios.post(
-      "http://localhost:5000/api/shop/contact",
+      `${import.meta.env.VITE_API_URL}/api/shop/contact`,
       formData
     );
     return response.data;
@@ -21,7 +21,7 @@ export const getUserContactForms = createAsyncThunk(
   "contact/getUserContactForms",
   async (email) => {
     const response = await axios.get(
-      `http://localhost:5000/api/shop/contact/${email}`
+      `${import.meta.env.VITE_API_URL}/api/shop/contact/${email}`
     );
     return response.data;
   }
@@ -31,7 +31,7 @@ export const editContactForm = createAsyncThunk(
   "contact/editContactForm",
   async ({ id, formData }) => {
     const response = await axios.put(
-      `http://localhost:5000/api/shop/contact/${id}`,
+      `${import.meta.env.VITE_API_URL}/api/shop/contact/${id}`,
       formData
     );
     return response.data;
@@ -42,7 +42,7 @@ export const deleteContactForm = createAsyncThunk(
   "contact/deleteContactForm",
   async (id) => {
     const response = await axios.delete(
-      `http://localhost:5000/api/shop/contact/${id}`
+      `${import.meta.env.VITE_API_URL}/api/shop/contact/${id}`
     );
     return response.data;
   }
