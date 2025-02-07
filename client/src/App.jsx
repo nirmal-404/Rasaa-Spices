@@ -32,10 +32,24 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(checkAuth());
+    const token = JSON.parse(sessionStorage.getItem('token'))
+    dispatch(checkAuth(token));
   }, [dispatch]);
 
-  if (isLoading) return <Skeleton className="w-[800] bg-black h-[600px]" />;
+  if (isLoading) {
+    return (
+      <div className="animate-pulse space-y-4 p-4">
+        <div className="bg-black/10 h-[80px] rounded-lg" />
+        <div className="h-[200px] bg-black/10 rounded-lg" />
+        <div className="grid grid-cols-3 gap-4">
+          <div className="h-[150px] bg-black/10 rounded-lg" />
+          <div className="h-[150px] bg-black/10 rounded-lg" />
+          <div className="h-[150px] bg-black/10 rounded-lg" />
+        </div>
+        <div className="h-[120px] bg-black/10 rounded-lg" />
+      </div>
+    );
+  }
 
   // console.log(isLoading, user);
 
