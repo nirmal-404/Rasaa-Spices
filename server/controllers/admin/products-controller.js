@@ -26,7 +26,7 @@ export const handleImageUpload = async (req, res) => {
 export const addProduct = async (req, res) => {
     try {
         const { image, title, description, category, price, salePrice, totalStock } = req.body;
-        console.log(image, title, description, category, price, salePrice, totalStock)
+        // console.log(image, title, description, category, price, salePrice, totalStock)
         if (!image || !title || !description || !category || !price || !salePrice || !totalStock) {
             return res.status(400).json({
                 status: "error",
