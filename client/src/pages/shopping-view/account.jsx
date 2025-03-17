@@ -42,12 +42,13 @@ function ShoppingAccount() {
       </div>
       <div className="container mx-auto grid grid-cols-1 gap-8 py-8">
         <div className="flex flex-col rounded-lg border bg-background p-6 shadow sm">
-          <Tabs defaultValue="messeges">
+          <Tabs defaultValue="personal">
             <TabsList>
               <TabsTrigger value="orders">Orders</TabsTrigger>
               <TabsTrigger value="address">Address</TabsTrigger>
               <TabsTrigger value="wishList">WishList</TabsTrigger>
               <TabsTrigger value="messeges">Message History</TabsTrigger>
+              <TabsTrigger value="personal">Personal Info</TabsTrigger>
             </TabsList>
 
             <TabsContent value="orders">
@@ -65,6 +66,11 @@ function ShoppingAccount() {
             <TabsContent value="messeges">
               <MessageHistory contactList={contactList && contactList.length > 0 ? contactList : []}/>
             </TabsContent>
+
+            <TabsContent value="personal">
+              
+            </TabsContent>
+
           </Tabs>
         </div>
       </div>

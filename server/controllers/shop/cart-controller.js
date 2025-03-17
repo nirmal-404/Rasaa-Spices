@@ -176,6 +176,8 @@ export const updateCartItemQty = async (req, res) => {
 }
 
 export const deleteCartItem = async (req, res) => {
+    const userIdFromToken = req.user.id; // Extract user ID from token
+    console.log(userIdFromToken);
     try {
         const { userId, productId } = req.params;
         if (!userId || !productId) {
