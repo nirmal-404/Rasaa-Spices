@@ -9,6 +9,7 @@ dotenv.config();
 function processName(name) {
     return name.charAt(0).toUpperCase() + name.slice(1).toLowerCase()
 }
+
 // register a user
 export const registerUser = async (req, res) => {
     const { firstName, lastName, email, gender, phoneNumber, password } = req.body;
@@ -58,7 +59,6 @@ export const registerUser = async (req, res) => {
         });
     }
 };
-
 
 export const getUsers = async (req, res) => {
     try {
