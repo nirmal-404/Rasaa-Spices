@@ -38,18 +38,28 @@ function App() {
 
   if (isLoading) {
     return (
-      <div className="animate-pulse space-y-4 p-4">
-        <div className="bg-black/10 h-[80px] rounded-lg" />
-        <div className="h-[200px] bg-black/10 rounded-lg" />
-        <div className="grid grid-cols-3 gap-4">
-          <div className="h-[150px] bg-black/10 rounded-lg" />
-          <div className="h-[150px] bg-black/10 rounded-lg" />
-          <div className="h-[150px] bg-black/10 rounded-lg" />
+      <div className="relative p-4">
+        {/* Skeleton Loader */}
+        <div className="animate-pulse space-y-4">
+          <div className="bg-gray-200 h-[80px] rounded-lg" />
+          <div className="bg-gray-200 h-[200px] rounded-lg" />
+          <div className="grid grid-cols-3 gap-4">
+            <div className="bg-gray-200 h-[150px] rounded-lg" />
+            <div className="bg-gray-200 h-[150px] rounded-lg" />
+            <div className="bg-gray-200 h-[150px] rounded-lg" />
+          </div>
+          <div className="bg-gray-200 h-[120px] rounded-lg" />
         </div>
-        <div className="h-[120px] bg-black/10 rounded-lg" />
+  
+        {/* Spinner Overlay */}
+        <div className="absolute inset-0 flex items-center justify-center">
+          <div className="w-16 h-16 border-t-4 border-blue-500 border-solid rounded-full animate-spin" />
+        </div>
       </div>
     );
   }
+  
+  
 
   // console.log(isLoading, user);
 
