@@ -1,9 +1,10 @@
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../ui/table";
+import { TableCell, TableRow } from "../ui/table";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 
-function OrderTile({orderItem, handleGetOrderDetails}) {
+
+function ShoppingOrderTile({ orderItem, handleGetOrderDetails }) {
     return (
         <TableRow key={orderItem?._id}>
             <TableCell>{orderItem?._id}</TableCell>
@@ -22,10 +23,8 @@ function OrderTile({orderItem, handleGetOrderDetails}) {
             </TableCell>
             <TableCell>${orderItem?.totalAmount}</TableCell>
             <TableCell>
-
                 <Button
-                    onClick={() => handleGetOrderDetails(orderItem?._id)}
-                >
+                    onClick={() => handleGetOrderDetails(orderItem?._id)}>
                     View Details
                 </Button>
             </TableCell>
@@ -33,4 +32,4 @@ function OrderTile({orderItem, handleGetOrderDetails}) {
     );
 }
 
-export default OrderTile;
+export default ShoppingOrderTile;

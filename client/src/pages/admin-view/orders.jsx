@@ -16,7 +16,7 @@ function AdminOrders() {
   const dispatch = useDispatch()
 
   function handleGetOrderDetails(getCurrentOrderId) {
-    console.log(getCurrentOrderId);
+    // console.log(getCurrentOrderId);
     dispatch(getOrderDetailsForAdmin(getCurrentOrderId));
   }
 
@@ -29,7 +29,7 @@ function AdminOrders() {
   }, [orderDetails]);
 
   // console.log(orderList, "orderList");
-  console.log(orderDetails, "orderDetails");
+  // console.log(orderDetails, "orderDetails");
 
 
   return (
