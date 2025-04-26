@@ -60,6 +60,7 @@ export const loginFormControls = [
     componentType: "input",
     type: "password",
   },
+  
 ];
 
 export const addProductFormElements = [

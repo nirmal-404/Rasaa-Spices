@@ -11,6 +11,13 @@ export const addAddress = async (req, res) => {
             });
         }
 
+        const addressCount = (await Address.find({ userId })).length
+        if (addressCount == 3) {
+            return res.status(400).json({
+                success: false,
+                message: "You can only have 3 addresses",
+            });
+        }
         const newAddress = new Address({
             userId,
             address,

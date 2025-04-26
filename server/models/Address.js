@@ -12,7 +12,6 @@ const AddressSchema = new mongoose.Schema(
         address: String,
         city: String,
         postalcode: String,
-        phone: String,
         notes: String,
     },
     { timestamps: true }

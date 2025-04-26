@@ -24,8 +24,6 @@ function AdminOrders() {
   const [currentOrderId, setCurrentOrderId] = useState(null);
 
   function handleAlertTrigger(getCurrentOrderId) {
-    console.log("working");
-    console.log("getCurrentOrderId++++++++", getCurrentOrderId);
     setCurrentOrderId(getCurrentOrderId); // Store the order ID
     setOpenAlertDialog(true);
   }
@@ -94,7 +92,7 @@ function AdminOrders() {
       />
       <CustomAlert
         openAlertDialog={openAlertDialog} setOpenAlertDialog={setOpenAlertDialog}
-        title="alert tile" descrption="alert descrption"
+        title="Are you sure" descrption="You want to cancel this order?"
         closeBtnTxt="close" okBtnTxt="continue"
         action={handleCancelOrder}
       />
