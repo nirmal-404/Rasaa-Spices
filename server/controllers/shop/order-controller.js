@@ -20,6 +20,20 @@ export const createOrder = async (req, res) => {
             payerId,
             cartId, } = req.body;
 
+        console.log("Order Details:");
+        console.log("User ID:", userId);
+        console.log("Cart Items:", cartItems);
+        console.log("Address Info:", addressInfo);
+        console.log("Order Status:", orderStatus);
+        console.log("Payment Method:", paymentMethod);
+        console.log("Payment Status:", paymentStatus);
+        console.log("Total Amount:", totalAmount);
+        console.log("Order Date:", orderDate);
+        console.log("Order Update Date:", orderUpdateDate);
+        console.log("Payment ID:", paymentId);
+        console.log("Payer ID:", payerId);
+        console.log("Cart ID:", cartId);
+
         // Create a new order request
         const request = new paypal.orders.OrdersCreateRequest();
         request.prefer("return=representation");

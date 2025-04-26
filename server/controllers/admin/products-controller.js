@@ -140,33 +140,3 @@ export const deleteProduct = async (req, res) => {
         });
     }
 }
-
-
-
-
-// NOTE
-// start--------------------feels like useless--------------------------------------------------------------------------------------
-
-// export const getProduct = async (req, res) => {
-//     try {
-
-//         const pid = req.params.id;
-
-//         if (!pid) {
-//             return res.status(400).json({ status: "error", message: "Product not found..." });
-//         }
-
-//         const ProductData = await Product.findById(pid);
-
-//         if (!ProductData) {
-//             return res.status(404).json({ status: "error", message: "Something went  wrong..." })
-//         }
-
-//         return res.status(200).json({ status: "success", message: "Product found", data: ProductData });
-
-//     } catch (error) {
-//         return res.status(500).json({ errorMessage: error.message });
-//     }
-
-// }
-// end------------------------------------------------------------------------------------------------------------------------------

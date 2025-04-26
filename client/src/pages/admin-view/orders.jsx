@@ -5,19 +5,27 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from ".
 import AdminOrderDetailsDialog from "../../components/admin-view/order-details";
 import OrderTile from "../../components/admin-view/order-tile";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrdersForAdmin, getOrderDetailsForAdmin, resetOrderDetails } from "@/store/admin/order-slice";
-
+import { cancelOrderForAdmin, getAllOrdersForAdmin, getOrderDetailsForAdmin, resetOrderDetails } from "@/store/admin/order-slice";
+import CustomAlert from "@/components/common/alert-dialog";
 
 
 function AdminOrders() {
 
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false)
+  const [openAlertDialog, setOpenAlertDialog] = useState(false)
   const { orderList, orderDetails } = useSelector(state => state.adminOrder)
   const dispatch = useDispatch()
 
   function handleGetOrderDetails(getCurrentOrderId) {
     // console.log(getCurrentOrderId);
     dispatch(getOrderDetailsForAdmin(getCurrentOrderId));
+  }
+
+  const [currentOrderId, setCurrentOrderId] = useState(null);
+
+  function handleAlertTrigger(getCurrentOrderId) {
+    setCurrentOrderId(getCurrentOrderId); // Store the order ID
+    setOpenAlertDialog(true);
   }
 
   useEffect(() => {
@@ -28,7 +36,19 @@ function AdminOrders() {
     if (orderDetails !== null) setOpenDetailsDialog(true);
   }, [orderDetails]);
 
-  // console.log(orderList, "orderList");
+ 
+  function handleCancelOrder() {
+    dispatch(cancelOrderForAdmin({id: currentOrderId})).then(
+      (data)=>{
+        if(data?.payload?.success){
+          dispatch(getAllOrdersForAdmin())
+        }
+      }
+    );
+    setOpenAlertDialog(false);
+  }
+
+   // console.log(orderList, "orderList");
   // console.log(orderDetails, "orderDetails");
 
 
@@ -55,9 +75,10 @@ function AdminOrders() {
               {orderList && orderList.length > 0 ?
                 orderList.map((orderItem) => (
                   <OrderTile
-                  key={orderItem?._id}
+                    key={orderItem?._id}
                     orderItem={orderItem}
                     handleGetOrderDetails={handleGetOrderDetails}
+                    handleAlertTrigger={handleAlertTrigger}
                   />
                 )) :
                 null}
@@ -68,6 +89,12 @@ function AdminOrders() {
       <AdminOrderDetailsDialog
         open={openDetailsDialog} setOpen={setOpenDetailsDialog}
         orderDetails={orderDetails}
+      />
+      <CustomAlert
+        openAlertDialog={openAlertDialog} setOpenAlertDialog={setOpenAlertDialog}
+        title="Are you sure" descrption="You want to cancel this order?"
+        closeBtnTxt="close" okBtnTxt="continue"
+        action={handleCancelOrder}
       />
     </div>
   );

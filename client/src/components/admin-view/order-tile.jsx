@@ -3,7 +3,7 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 
 
-function OrderTile({orderItem, handleGetOrderDetails}) {
+function OrderTile({ orderItem, handleGetOrderDetails, handleAlertTrigger }) {
     return (
         <TableRow key={orderItem?._id}>
             <TableCell>{orderItem?._id}</TableCell>
@@ -20,14 +20,17 @@ function OrderTile({orderItem, handleGetOrderDetails}) {
                     {orderItem?.orderStatus}
                 </Badge>
             </TableCell>
-            <TableCell>${orderItem?.totalAmount}</TableCell>
+            <TableCell>LKR {orderItem?.totalAmount}</TableCell>
             <TableCell>
+                <div className="flex space-x-2">
+                    <Button onClick={() => handleGetOrderDetails(orderItem?._id)}>
+                        View details
+                    </Button>
+                    <Button variant="destructive" onClick={() => handleAlertTrigger(orderItem?._id)}>
+                        Cancel
+                    </Button>
+                </div>
 
-                <Button
-                    onClick={() => handleGetOrderDetails(orderItem?._id)}
-                >
-                    View Details
-                </Button>
             </TableCell>
         </TableRow>
     );

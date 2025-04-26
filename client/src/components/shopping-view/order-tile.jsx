@@ -21,7 +21,7 @@ function ShoppingOrderTile({ orderItem, handleGetOrderDetails }) {
                     {orderItem?.orderStatus}
                 </Badge>
             </TableCell>
-            <TableCell>${orderItem?.totalAmount}</TableCell>
+            <TableCell>LKR {orderItem?.totalAmount}</TableCell>
             <TableCell>
                 <Button
                     onClick={() => handleGetOrderDetails(orderItem?._id)}>

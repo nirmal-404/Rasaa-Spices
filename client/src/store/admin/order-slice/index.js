@@ -42,6 +42,16 @@ export const updateOrderStatus = createAsyncThunk(
   }
 );
 
+export const cancelOrderForAdmin = createAsyncThunk(
+  "/order/updateOrderStatus",
+  async ({ id }) => {
+    const response = await axios.delete(
+      `${import.meta.env.VITE_API_URL}/api/admin/orders/cancel/${id}`,
+    );
+    return response.data;
+  }
+);
+
 const adminOrderSlice = createSlice({
   name: "adminOrderSlice",
   initialState,
