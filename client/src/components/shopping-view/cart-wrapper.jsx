@@ -1,23 +1,44 @@
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import { Button } from "../ui/button"
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { deleteCartItem } from "@/store/shop/cart-slice";
 import UserCartItemsContent from "./cart-items-content";
 import { useNavigate } from "react-router-dom";
 
 function UserCartWrapper({ cartItems, setOpenCartSheet }) {
 
+
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { user } = useSelector(state => state.auth)
+
+
+
+    useEffect(() => {
+        if (cartItems && cartItems.length > 0) {
+
+            const now = new Date();
+
+            cartItems.forEach(item => {
+
+                const itemDate = new Date(item?.createdAt);
+                const diffInDays = (now - itemDate) / (1000 * 60 * 60 * 24);
+
+                if (diffInDays >= 5) {
+                    dispatch(deleteCartItem({ userId: user?.id, productId: item?.productId }));
+                }
+            });
+        }
+    }, [cartItems, dispatch, user?.id]);
 
     const totalCartAmount =
         cartItems && cartItems.length > 0
-            ? cartItems.reduce(
-                (sum, currentItem) =>
-                    sum +
-                    (currentItem?.salePrice > 0
-                        ? currentItem?.salePrice
-                        : currentItem?.price) *
-                    currentItem?.quantity,
-                0
-            )
+            ? cartItems.reduce((sum, currentItem) => {
+
+                const price = currentItem?.salePrice > 0 ? currentItem?.salePrice : currentItem?.price;
+                return sum + price * currentItem?.quantity;
+            }, 0)
             : 0;
 
     return (
@@ -37,11 +58,11 @@ function UserCartWrapper({ cartItems, setOpenCartSheet }) {
                 </div>
             </div>
             <Button
-            onClick={() => {
-                navigate("/shop/checkout")
-                setOpenCartSheet(false)
-            }}
-             className="w-full mt-6">Checkout</Button>
+                onClick={() => {
+                    navigate("/shop/checkout")
+                    setOpenCartSheet(false)
+                }}
+                className="w-full mt-6">Checkout</Button>
         </SheetContent>
     );
 }
