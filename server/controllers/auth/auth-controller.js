@@ -172,7 +172,7 @@ export const loginUser = async (req, res) => {
                 lastName: checkUser.lastName,
                 image: checkUser.image
             },
-            "CLIENT_SECRET_KEY",
+            process.env.JWT_SECRET_KEY,
             { expiresIn: "60m" }
         );
 
@@ -218,25 +218,4 @@ export const logoutUser = (req, res) => {
         success: true,
         message: "Logged out successfully!",
     });
-};
-
-export const authMiddleware = async (req, res, next) => {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
-    if (!token)
-        return res.status(401).json({
-            success: false,
-            message: "Unauthorised user!",
-        });
-
-    try {
-        const decoded = jwt.verify(token, "CLIENT_SECRET_KEY");
-        req.user = decoded;
-        next();
-    } catch (error) {
-        res.status(401).json({
-            success: false,
-            message: "Unauthorised user!",
-        });
-    }
 };

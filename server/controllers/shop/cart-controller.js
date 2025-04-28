@@ -2,6 +2,7 @@ import Cart from "../../models/Cart.js"
 import Product from "../../models/Product.js"
 
 export const addToCart = async (req, res) => {
+    
     try {
 
         const { userId, productId, quantity } = req.body
@@ -69,6 +70,7 @@ export const fetchCartItems = async (req, res) => {
             select: "image title price salePrice",
         });
 
+
         if (!cart) {
             return res.status(404).json({
                 success: false,
@@ -80,6 +82,7 @@ export const fetchCartItems = async (req, res) => {
             (productItem) => productItem.productId
         );
 
+        console.log("validItems", validItems)
         if (validItems.length < cart.items.length) {
             cart.items = validItems;
             await cart.save();
@@ -92,8 +95,11 @@ export const fetchCartItems = async (req, res) => {
             title: item.productId.title,
             price: item.productId.price,
             salePrice: item.productId.salePrice,
+            createdAt: item.createdAt,
             quantity: item.quantity,
         }));
+
+        console.log("populateCartItems", populateCartItems);
 
         res.status(200).json({
             success: true,
@@ -156,6 +162,7 @@ export const updateCartItemQty = async (req, res) => {
             title: item.productId ? item.productId.title : "Product not found",
             price: item.productId ? item.productId.price : null,
             salePrice: item.productId ? item.productId.salePrice : null,
+            createdAt: item.productId ? item.productId.createdAt : null,
             quantity: item.quantity,
         }));
 
@@ -176,8 +183,8 @@ export const updateCartItemQty = async (req, res) => {
 }
 
 export const deleteCartItem = async (req, res) => {
-    const userIdFromToken = req.user.id; // Extract user ID from token
-    console.log(userIdFromToken);
+    // const userIdFromToken = req.user.id; // Extract user ID from token
+    // console.log(userIdFromToken);
     try {
         const { userId, productId } = req.params;
         if (!userId || !productId) {
@@ -216,6 +223,7 @@ export const deleteCartItem = async (req, res) => {
             title: item.productId ? item.productId.title : "Product not found",
             price: item.productId ? item.productId.price : null,
             salePrice: item.productId ? item.productId.salePrice : null,
+            createdAt: item.productId ? item.productId.createdAt : null,
             quantity: item.quantity,
         }));
 

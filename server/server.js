@@ -20,6 +20,8 @@ import shopContactRoutes from "./routes/shop/contactus-routes.js"
 
 import heroImgRoutes from './routes/common/hero-image-routes.js'
 
+import testRoutes from './routes/test-routes.js'
+
 const app = express();
 dotenv.config();
 
@@ -71,4 +73,7 @@ app.use("/api/shop/contact", shopContactRoutes);
 
 
 app.use("/api/common/hero", heroImgRoutes);
+
+
+app.use("/api/test", testRoutes);
 
