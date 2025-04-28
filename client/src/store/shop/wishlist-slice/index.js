@@ -1,6 +1,6 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getToken } from "../utils";
+import { getToken } from "../../utils";
 
 const initialState = {
     wishlistItems: [],
