@@ -1,66 +1,106 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getToken } from "../../utils";
 
 const initialState = {
   isLoading: false,
   productList: [],
 };
 
-export const addNewProduct = createAsyncThunk(
-  "/products/addnewproduct",
-  async (formData) => {
-    const result = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/add`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
 
-    return result?.data;
+export const addNewProduct = createAsyncThunk(
+  "products/addnewproduct",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const result = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/admin/products/add`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return result?.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
-
-
 export const fetchAllProducts = createAsyncThunk(
-  "/products/fetchAllProducts",
-  async () => {
-    const result = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/get`
-    );
+  "products/fetchAllProducts",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
 
-    return result?.data;
+      const result = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/products/get`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return result?.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const editProduct = createAsyncThunk(
-  "/products/editProduct",
-  async ({ id, formData }) => {
-    const result = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/edit/${id}`,
-      formData,
-      {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+  "products/editProduct",
+  async ({ id, formData }, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
 
-    return result?.data;
+      const result = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/admin/products/edit/${id}`,
+        formData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return result?.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const deleteProduct = createAsyncThunk(
-  "/products/deleteProduct",
-  async (id) => {
-    const result = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`
-    );
+  "products/deleteProduct",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
 
-    return result?.data;
+      const result = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/admin/products/delete/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return result?.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 

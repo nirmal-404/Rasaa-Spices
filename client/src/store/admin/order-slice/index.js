@@ -6,51 +6,101 @@ const initialState = {
   orderDetails: null,
 };
 
-export const getAllOrdersForAdmin = createAsyncThunk(
-  "/order/getAllOrdersForAdmin",
-  async () => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/get`
-    );
 
-    return response.data;
+export const getAllOrdersForAdmin = createAsyncThunk(
+  "order/getAllOrdersForAdmin",
+  async (_, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/get`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const getOrderDetailsForAdmin = createAsyncThunk(
-  "/order/getOrderDetailsForAdmin",
-  async (id) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/details/${id}`
-    );
+  "order/getOrderDetailsForAdmin",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
 
-    return response.data;
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/details/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const updateOrderStatus = createAsyncThunk(
-  "/order/updateOrderStatus",
-  async ({ id, orderStatus }) => {
-    const response = await axios.put(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/update/${id}`,
-      {
-        orderStatus,
-      }
-    );
+  "order/updateOrderStatus",
+  async ({ id, orderStatus }, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
 
-    return response.data;
+      const response = await axios.put(
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/update/${id}`,
+        { orderStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const cancelOrderForAdmin = createAsyncThunk(
-  "/order/updateOrderStatus",
-  async ({ id }) => {
-    const response = await axios.delete(
-      `${import.meta.env.VITE_API_URL}/api/admin/orders/cancel/${id}`,
-    );
-    return response.data;
+  "order/updateOrderStatus",
+  async ({ id }, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.delete(
+        `${import.meta.env.VITE_API_URL}/api/admin/orders/cancel/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
+
 
 const adminOrderSlice = createSlice({
   name: "adminOrderSlice",

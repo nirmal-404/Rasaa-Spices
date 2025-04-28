@@ -1,20 +1,36 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getToken } from "../../utils";
+
 
 const initialState = {
   isLoading: false,
   reviews: [],
 };
 
-export const addReview = createAsyncThunk(
-  "/order/addReview",
-  async (formdata) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/shop/review/add`,
-      formdata
-    );
 
-    return response.data;
+export const addReview = createAsyncThunk(
+  "order/addReview",
+  async (formData, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/shop/review/add`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
