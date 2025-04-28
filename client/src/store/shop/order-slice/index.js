@@ -9,25 +9,39 @@ const initialState = {
   orderDetails: null,
 };
 
-export const createNewOrder = createAsyncThunk(
-  "/order/createNewOrder",
-  async (orderData) => {
-    const response = await axios.post(
-      `${import.meta.env.VITE_API_URL}/api/shop/order/create`,
-      orderData
-    );
 
-    return response.data;
+export const createNewOrder = createAsyncThunk(
+  "order/createNewOrder",
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/shop/order/create`,
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
 export const capturePayment = createAsyncThunk(
   "/order/capturePayment",
-  
+
   async ({ paymentId, payerId, orderId }) => {
-  console.log(paymentId);
-  console.log(payerId);
-  console.log(orderId);
+    console.log(paymentId);
+    console.log(payerId);
+    console.log(orderId);
 
     const response = await axios.post(
       `${import.meta.env.VITE_API_URL}/api/shop/order/capture`,
@@ -42,25 +56,51 @@ export const capturePayment = createAsyncThunk(
   }
 );
 
-export const getAllOrdersByUserId = createAsyncThunk(
-  "/order/getAllOrdersByUserId",
-  async (userId) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`
-    );
 
-    return response.data;
+export const getAllOrdersByUserId = createAsyncThunk(
+  "order/getAllOrdersByUserId",
+  async (userId, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/shop/order/list/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 
-export const getOrderDetails = createAsyncThunk(
-  "/order/getOrderDetails",
-  async (id) => {
-    const response = await axios.get(
-      `${import.meta.env.VITE_API_URL}/api/shop/order/details/${id}`
-    );
 
-    return response.data;
+export const getOrderDetails = createAsyncThunk(
+  "order/getOrderDetails",
+  async (id, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+
+      const response = await axios.get(
+        `${import.meta.env.VITE_API_URL}/api/shop/order/details/${id}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
   }
 );
 

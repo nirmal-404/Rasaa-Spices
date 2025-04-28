@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import { getToken } from "../utils";
 
 const initialState = {
     wishlistItems: [],
@@ -8,57 +9,100 @@ const initialState = {
 
 export const addToWishlist = createAsyncThunk(
     "wishlist/addToWishlist",
-    async ({ userId, productId, quantity }) => {
-        const response = await axios.post(
-            `${import.meta.env.VITE_API_URL}/api/shop/wishlist/add`,
-            {
-                userId,
-                productId,
-                quantity,
-            }
-        );
+    async ({ userId, productId, quantity }, { rejectWithValue }) => {
+        try {
+            const token = getToken();
+            if (!token) return rejectWithValue('Authentication token missing');
 
-        return response.data;
+            const response = await axios.post(
+                `${import.meta.env.VITE_API_URL}/api/shop/wishlist/add`,
+                { userId, productId, quantity },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
     }
 );
 
 export const fetchWishlistItems = createAsyncThunk(
     "wishlist/fetchWishlistItems",
-    async (userId) => {
-        const response = await axios.get(
-            `${import.meta.env.VITE_API_URL}/api/shop/wishlist/get/${userId}`
-        );
+    async (userId, { rejectWithValue }) => {
+        try {
+            const token = getToken();
+            if (!token) return rejectWithValue('Authentication token missing');
 
-        return response.data;
+            const response = await axios.get(
+                `${import.meta.env.VITE_API_URL}/api/shop/wishlist/get/${userId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
     }
 );
 
 export const deleteWishlistItem = createAsyncThunk(
     "wishlist/deleteWishlistItem",
-    async ({ userId, productId }) => {
-        const response = await axios.delete(
-            `${import.meta.env.VITE_API_URL}/api/shop/wishlist/${userId}/${productId}`
-        );
+    async ({ userId, productId }, { rejectWithValue }) => {
+        try {
+            const token = getToken();
+            if (!token) return rejectWithValue('Authentication token missing');
 
-        return response.data;
+            const response = await axios.delete(
+                `${import.meta.env.VITE_API_URL}/api/shop/wishlist/${userId}/${productId}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
     }
 );
 
 export const updateWishlistQuantity = createAsyncThunk(
     "wishlist/updateWishlistQuantity",
-    async ({ userId, productId, quantity }) => {
-        const response = await axios.put(
-            `${import.meta.env.VITE_API_URL}/api/shop/wishlist/update-wishlist`,
-            {
-                userId,
-                productId,
-                quantity,
-            }
-        );
+    async ({ userId, productId, quantity }, { rejectWithValue }) => {
+        try {
+            const token = getToken();
+            if (!token) return rejectWithValue('Authentication token missing');
 
-        return response.data;
+            const response = await axios.put(
+                `${import.meta.env.VITE_API_URL}/api/shop/wishlist/update-wishlist`,
+                { userId, productId, quantity },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
+
+            return response.data;
+        } catch (error) {
+            return rejectWithValue(error.response?.data || error.message);
+        }
     }
 );
+
 
 const shoppingWishlistSlice = createSlice({
     name: "shoppingWishlist",
