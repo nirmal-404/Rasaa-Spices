@@ -37,8 +37,8 @@ const store = configureStore({
 
     commonHero: commonHeroSlice,
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(logger),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(logger),
 });
 
 export default store;

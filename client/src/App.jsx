@@ -28,7 +28,7 @@ import AboutUs from "./pages/shopping-view/about";
 
 function App() {
   const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
-
+  console.log(user, isAuthenticated, isLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {
