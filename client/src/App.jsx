@@ -32,10 +32,19 @@ function App() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem('token'))
-    dispatch(checkAuth(token));
+    const rawToken = sessionStorage.getItem("token");
+  
+    // Check for null and parse only if valid
+    if (rawToken) {
+      const token = JSON.parse(rawToken);
+      if (token) {
+        dispatch(checkAuth(token));
+      }
+    }
   }, [dispatch]);
+  
 
+  
   if (isLoading) {
     return (
       <div className="relative p-4">

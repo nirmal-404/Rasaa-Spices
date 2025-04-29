@@ -6,6 +6,7 @@ import { Button } from "../../components/ui/button";
 import { useState } from "react";
 import { createNewOrder } from "@/store/shop/order-slice";
 import { useToast } from "@/components/ui/use-toast";
+import axios from "axios";
 
 function ShoppingCheckout() {
   const { cartItems } = useSelector(state => state.shopCart)
@@ -27,6 +28,43 @@ function ShoppingCheckout() {
         0
       )
       : 0;
+
+  const handlePayNow = async () => {
+    const orderDetails = {
+      order_id: "ORDER12345",
+      amount: 1000.00,
+      currency: "LKR",
+      // any other details you need
+    };
+
+    // Call your backend to get hash
+    const response = await axios.post('http://localhost:5000/api/shop/order/generate-hash', orderDetails);
+    const { hash } = response.data;
+    console.log(hash, "hash");
+    // Prepare PayHere payment object
+    const payment = {
+      sandbox: true, // true if using sandbox mode
+      merchant_id: "1229384",
+      return_url: "https://yourdomain.com/return",
+      cancel_url: "https://yourdomain.com/cancel",
+      notify_url: "https://yourpublicdomain.com/api/payment/notify",
+      order_id: orderDetails.order_id,
+      items: "Your Item Name",
+      amount: orderDetails.amount,
+      currency: orderDetails.currency,
+      hash: hash,
+      first_name: "CustomerFirstName",
+      last_name: "CustomerLastName",
+      email: "customer@example.com",
+      phone: "0771234567",
+      address: "No. 1, Galle Road",
+      city: "Colombo",
+      country: "Sri Lanka",
+    };
+
+    // Trigger PayHere payment popup
+    payhere.startPayment(payment);
+  };
 
   function handleInitiatePaypalPayment() {
 
@@ -87,6 +125,19 @@ function ShoppingCheckout() {
     })
   }
 
+  payhere.onCompleted = function (orderId) {
+    console.log("Payment Completed. Order ID: " + orderId);
+    // Optionally dispatch Redux action here to update order status
+  };
+
+  payhere.onDismissed = function () {
+    console.log("Payment dismissed by user.");
+  };
+
+  payhere.onError = function (error) {
+    console.error("Error occurred: ", error);
+  };
+
 
   if (approvalURL) {
     window.location.href = approvalURL;
@@ -119,11 +170,15 @@ function ShoppingCheckout() {
             </div>
           </div>
           <div className="mt-4 w-full">
-            <Button onClick={handleInitiatePaypalPayment} className="w-full">
+            <Button onClick={handlePayNow} className="w-full mb-1">
+              Pay now
+            </Button>
+            <p className="flex justify-center text-xl">or</p>
+            <Button onClick={handleInitiatePaypalPayment} className="w-full mt-1">
               {
                 isPaymentStart ? "Processing Paypal Payment..." : "Checkout with Paypal"
               }
-              </Button>
+            </Button>
           </div>
         </div>
 

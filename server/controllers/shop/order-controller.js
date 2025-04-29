@@ -1,3 +1,6 @@
+// Correct import
+import crypto from 'crypto'; // (ES6)
+
 import client from "../../helpers/paypal.js";
 import Order from "../../models/Order.js";
 import Cart from "../../models/Cart.js";
@@ -158,6 +161,22 @@ export const capturePayment = async (req, res) => {
         });
     }
 };
+
+export const generateHash = async (req, res) => {
+    const { order_id, amount, currency } = req.body;
+
+    if (!order_id || !amount || !currency) {
+        return res.status(400).json({ message: 'Missing required fields.' });
+    }
+
+    const formattedAmount = Number(amount).toFixed(2); // must be 2 decimals
+    const secretMd5 = crypto.createHash('md5').update(process.env.MERCHANT_SECRET).digest('hex').toUpperCase();
+
+    const raw = process.env.MERCHANT_ID + order_id + formattedAmount + currency + secretMd5;
+    const hash = crypto.createHash('md5').update(raw).digest('hex').toUpperCase();
+
+    res.json({ hash });
+}
 
 export const getAllOrdersByUser = async (req, res) => {
     try {

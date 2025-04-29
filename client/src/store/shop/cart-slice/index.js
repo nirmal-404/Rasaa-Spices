@@ -7,7 +7,6 @@ const initialState = {
   isLoading: false,
 };
 
-
 export const addToCart = createAsyncThunk(
   "cart/addToCart",
   async ({ userId, productId, quantity }, { rejectWithValue }) => {
@@ -104,7 +103,6 @@ export const updateCartQuantity = createAsyncThunk(
     }
   }
 );
-
 
 const shoppingCartSlice = createSlice({
   name: "shoppingCart",

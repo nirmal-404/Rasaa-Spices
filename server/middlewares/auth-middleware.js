@@ -20,7 +20,7 @@ export const authMiddleware = (req, res, next) => {
     req.userInfo = decodedTokenInfo;
     next();
   } catch (error) {
-    return res.status(500).json({
+    return res.status(401).json({
       success: false,
       message: "Access denied. No token provided. Please login to continue",
     });
