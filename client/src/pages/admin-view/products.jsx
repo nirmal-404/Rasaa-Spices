@@ -17,6 +17,7 @@ import {
   editProduct,
   fetchAllProducts,
 } from "@/store/admin/products-slice";
+import { handleProductReportGenaration } from '../../components/admin-view/helpers/product-report-genaration'
 import { Fragment, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -99,15 +100,20 @@ function AdminProducts() {
     dispatch(fetchAllProducts())
   }, [dispatch])
 
-  console.log(productList, "product list", formData);
+  // console.log(productList, "product list", formData);
 
   return (
     <Fragment>
-      <div className="mb-5 w-full flex justify-end">
+      <div className="mb-5 w-full flex justify-between">
+        <Button onClick={() => handleProductReportGenaration(productList)}>
+          Download
+        </Button>
+
         <Button onClick={() => setOpenCreateProductsDialog(true)}>
           Add New Product
         </Button>
       </div>
+
       <div className="grid gap-4 md:grid-cols-3 lg:grid-cols-4">
         {
           productList && productList.length > 0 ?

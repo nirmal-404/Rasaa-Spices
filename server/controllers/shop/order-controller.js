@@ -1,5 +1,5 @@
 // Correct import
-import crypto from 'crypto'; // (ES6)
+
 
 import client from "../../helpers/paypal.js";
 import Order from "../../models/Order.js";
@@ -7,8 +7,53 @@ import Cart from "../../models/Cart.js";
 import Product from "../../models/Product.js";
 
 import paypal from "@paypal/checkout-server-sdk";
+import {generateHash} from "../../helpers/payhere.js";
+
 
 export const createOrder = async (req, res) => {
+    console.log("Creating order...");
+    try {
+        const { userId,
+            cartItems,
+            addressInfo,
+            paymentMethod,
+            paymentStatus,
+            totalAmount,
+            orderStatus,
+            currency,
+        } = req.body;
+
+        const newlyCreatedOrder = new Order({
+            userId,
+            cartItems,
+            addressInfo,
+            paymentMethod,
+            paymentStatus,
+            totalAmount,
+            orderStatus,
+        });
+
+        await newlyCreatedOrder.save();
+
+        const paymentHash = generateHash(newlyCreatedOrder._id, totalAmount, currency);
+
+        res.status(201).json({
+            success: true,
+            orderId: newlyCreatedOrder._id,
+            paymentHash,
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({
+            success: false,
+            message: "Error while creating the order",
+        });
+    }
+
+}
+
+
+export const createOrderForPaypalPayments = async (req, res) => {
     try {
         const { userId,
             cartItems,
@@ -20,22 +65,7 @@ export const createOrder = async (req, res) => {
             orderDate,
             orderUpdateDate,
             paymentId,
-            payerId,
-            cartId, } = req.body;
-
-        console.log("Order Details:");
-        console.log("User ID:", userId);
-        console.log("Cart Items:", cartItems);
-        console.log("Address Info:", addressInfo);
-        console.log("Order Status:", orderStatus);
-        console.log("Payment Method:", paymentMethod);
-        console.log("Payment Status:", paymentStatus);
-        console.log("Total Amount:", totalAmount);
-        console.log("Order Date:", orderDate);
-        console.log("Order Update Date:", orderUpdateDate);
-        console.log("Payment ID:", paymentId);
-        console.log("Payer ID:", payerId);
-        console.log("Cart ID:", cartId);
+            payerId, } = req.body;
 
         // Create a new order request
         const request = new paypal.orders.OrdersCreateRequest();
@@ -81,7 +111,6 @@ export const createOrder = async (req, res) => {
         // Save the order in your database
         const newlyCreatedOrder = new Order({
             userId,
-            cartId,
             cartItems,
             addressInfo,
             orderStatus,
@@ -161,22 +190,6 @@ export const capturePayment = async (req, res) => {
         });
     }
 };
-
-export const generateHash = async (req, res) => {
-    const { order_id, amount, currency } = req.body;
-
-    if (!order_id || !amount || !currency) {
-        return res.status(400).json({ message: 'Missing required fields.' });
-    }
-
-    const formattedAmount = Number(amount).toFixed(2); // must be 2 decimals
-    const secretMd5 = crypto.createHash('md5').update(process.env.MERCHANT_SECRET).digest('hex').toUpperCase();
-
-    const raw = process.env.MERCHANT_ID + order_id + formattedAmount + currency + secretMd5;
-    const hash = crypto.createHash('md5').update(raw).digest('hex').toUpperCase();
-
-    res.json({ hash });
-}
 
 export const getAllOrdersByUser = async (req, res) => {
     try {

@@ -82,7 +82,7 @@ export const fetchCartItems = async (req, res) => {
             (productItem) => productItem.productId
         );
 
-        console.log("validItems", validItems)
+        // console.log("validItems", validItems)
         if (validItems.length < cart.items.length) {
             cart.items = validItems;
             await cart.save();
@@ -99,7 +99,7 @@ export const fetchCartItems = async (req, res) => {
             quantity: item.quantity,
         }));
 
-        console.log("populateCartItems", populateCartItems);
+        // console.log("populateCartItems", populateCartItems);
 
         res.status(200).json({
             success: true,

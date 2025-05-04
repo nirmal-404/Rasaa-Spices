@@ -1,6 +1,7 @@
 import Address from "../../models/Address.js"
 
 export const addAddress = async (req, res) => {
+    console.log("addAddress called")
     try {
         const { userId, address, city, postalcode, phone, notes } = req.body;
 

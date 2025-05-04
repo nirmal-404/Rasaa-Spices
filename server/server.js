@@ -20,6 +20,10 @@ import shopContactRoutes from "./routes/shop/contactus-routes.js"
 
 import heroImgRoutes from './routes/common/hero-image-routes.js'
 
+
+import paymentRoutes from './routes/payment/payment-routes.js'
+
+
 import testRoutes from './routes/test-routes.js'
 
 const app = express();
@@ -41,7 +45,7 @@ mongoose.connect(MONGO_URI)
 
 app.use(
     cors({
-        origin: process.env.CLIENT_BASE_URL,
+        origin: ['https://rasaa-frontend.loca.lt', process.env.CLIENT_BASE_URL],
         methods: ["GET", "POST", "DELETE", "PUT"],
         allowedHeaders: [
             "Content-Type",
@@ -55,8 +59,11 @@ app.use(
 );
 app.use(cookieParser());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 
 app.use("/api/auth", authRoutes);
+
 
 app.use("/api/admin/products", adminProductRoutes);
 app.use("/api/admin/orders", adminOrderRoutes);
@@ -73,6 +80,14 @@ app.use("/api/shop/contact", shopContactRoutes);
 
 
 app.use("/api/common/hero", heroImgRoutes);
+
+
+app.use("/api/payment", paymentRoutes);
+
+
+
+
+
 
 
 app.use("/api/test", testRoutes);
