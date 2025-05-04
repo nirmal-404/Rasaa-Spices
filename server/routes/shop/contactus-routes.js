@@ -11,8 +11,8 @@ import { authMiddleware } from "../../middlewares/auth-middleware.js";
 const routeContact = express.Router();
 
 routeContact.post("/", submitContactForm);
-routeContact.get("/:email", authMiddleware, getUserContactForms);
-routeContact.put("/:id", authMiddleware, editContactForm);
-routeContact.delete("/:id", authMiddleware, deleteContactForm);
+routeContact.get("/:email", getUserContactForms);
+routeContact.put("/:id", editContactForm);
+routeContact.delete("/:id", deleteContactForm);
 
 export default routeContact;

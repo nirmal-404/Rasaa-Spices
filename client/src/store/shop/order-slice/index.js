@@ -189,6 +189,7 @@ const shoppingOrderSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(createNewOrderWithPaypalPayment.fulfilled, (state, action) => {
+        console.log(action.payload)
         state.isLoading = false;
         state.approvalURL = action.payload.approvalURL;
         state.orderId = action.payload.orderId;

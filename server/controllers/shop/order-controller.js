@@ -104,10 +104,11 @@ export const createOrderForPaypalPayments = async (req, res) => {
         const order = await client.execute(request);
 
         // Extract the approval URL
+        console.log("order", order)
         const approvalURL = order.result.links.find(
             (link) => link.rel === "approve"
         ).href;
-
+        
         // Save the order in your database
         const newlyCreatedOrder = new Order({
             userId,
