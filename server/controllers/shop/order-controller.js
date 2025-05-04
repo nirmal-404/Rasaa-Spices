@@ -5,10 +5,11 @@ import client from "../../helpers/paypal.js";
 import Order from "../../models/Order.js";
 import Cart from "../../models/Cart.js";
 import Product from "../../models/Product.js";
+import User from "../../models/User.js";
 
 import paypal from "@paypal/checkout-server-sdk";
 import {generateHash} from "../../helpers/payhere.js";
-
+import { sendOrderConfirmationEmail } from "../../helpers/send-order-confimation-email.js"
 
 export const createOrder = async (req, res) => {
     console.log("Creating order...");
@@ -125,6 +126,14 @@ export const createOrderForPaypalPayments = async (req, res) => {
         });
 
         await newlyCreatedOrder.save();
+        
+        const user = await User.findById(userId);
+
+        if(user){
+            const fullname = user.firstName + " " + user.lastName
+            await sendOrderConfirmationEmail(user?.email, fullname, newlyCreatedOrder)
+        }
+        
 
         res.status(201).json({
             success: true,

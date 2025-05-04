@@ -1,5 +1,5 @@
 import ContactUs from "../../models/Contact.js"
-
+import { sendReviewEmail } from "../../helpers/send-review-mail.js"
 // User submits a contact form
 export const submitContactForm = async (req, res) => {
     try {
@@ -21,6 +21,8 @@ export const submitContactForm = async (req, res) => {
         });
 
         await newContactUs.save();
+
+        sendReviewEmail(email, name, message);
 
         res.status(201).json({
             success: true,
