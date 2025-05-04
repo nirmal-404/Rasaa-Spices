@@ -192,7 +192,10 @@ const shoppingOrderSlice = createSlice({
         console.log(action.payload)
         state.isLoading = false;
         state.approvalURL = action.payload.approvalURL;
-        state.orderId = action.payload.orderId;
+        sessionStorage.setItem(
+          "approvalURL",
+          JSON.stringify(action.payload.approvalURL)
+        )
         sessionStorage.setItem(
           "currentOrderId",
           JSON.stringify(action.payload.orderId)

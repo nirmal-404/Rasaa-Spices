@@ -157,6 +157,7 @@ function ShoppingCheckout() {
 
     dispatch(createNewOrderWithPaypalPayment(orderData)).then((data) => {
       if (data?.payload?.success) {
+
         setIsPaymentStart(true)
       } else {
         setIsPaymentStart(false)
