@@ -1,14 +1,15 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { getToken } from "../../utils";
 
 const initialState = {
   approvalURL: null,
   isLoading: false,
   orderId: null,
+  paymentHash: null,
   orderList: [],
   orderDetails: null,
 };
-
 
 export const createNewOrder = createAsyncThunk(
   "order/createNewOrder",
@@ -16,7 +17,10 @@ export const createNewOrder = createAsyncThunk(
     try {
       const token = getToken();
       if (!token) return rejectWithValue('Authentication token missing');
-
+      sessionStorage.setItem(
+        "addressInfo",
+        JSON.stringify(orderData.addressInfo)
+      );
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/shop/order/create`,
         orderData,
@@ -56,7 +60,6 @@ export const capturePayment = createAsyncThunk(
   }
 );
 
-
 export const getAllOrdersByUserId = createAsyncThunk(
   "order/getAllOrdersByUserId",
   async (userId, { rejectWithValue }) => {
@@ -80,7 +83,6 @@ export const getAllOrdersByUserId = createAsyncThunk(
   }
 );
 
-
 export const getOrderDetails = createAsyncThunk(
   "order/getOrderDetails",
   async (id, { rejectWithValue }) => {
@@ -93,6 +95,34 @@ export const getOrderDetails = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+export const createNewOrderWithPaypalPayment = createAsyncThunk(
+  "order/createNewOrderWithPaypalPayment",
+  async (orderData, { rejectWithValue }) => {
+    try {
+      const token = getToken();
+      if (!token) return rejectWithValue('Authentication token missing');
+      sessionStorage.setItem(
+        "addressInfo",
+        JSON.stringify(orderData.addressInfo)
+      );
+      const response = await axios.post(
+        `${import.meta.env.VITE_API_URL}/api/shop/order/create-with-paypal`,
+        orderData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
           },
         }
       );
@@ -119,17 +149,19 @@ const shoppingOrderSlice = createSlice({
       })
       .addCase(createNewOrder.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.approvalURL = action.payload.approvalURL;
+        // state.approvalURL = action.payload.approvalURL;
         state.orderId = action.payload.orderId;
         sessionStorage.setItem(
           "currentOrderId",
           JSON.stringify(action.payload.orderId)
         );
+        state.paymentHash = action.payload.paymentHash;
       })
       .addCase(createNewOrder.rejected, (state) => {
         state.isLoading = false;
         state.approvalURL = null;
         state.orderId = null;
+        state.paymentHash = null;
       })
       .addCase(getAllOrdersByUserId.pending, (state) => {
         state.isLoading = true;
@@ -152,6 +184,25 @@ const shoppingOrderSlice = createSlice({
       .addCase(getOrderDetails.rejected, (state) => {
         state.isLoading = false;
         state.orderDetails = null;
+      })
+      .addCase(createNewOrderWithPaypalPayment.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(createNewOrderWithPaypalPayment.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.approvalURL = action.payload.approvalURL;
+        state.orderId = action.payload.orderId;
+        sessionStorage.setItem(
+          "currentOrderId",
+          JSON.stringify(action.payload.orderId)
+        );
+        state.paymentHash = action.payload.paymentHash;
+      })
+      .addCase(createNewOrderWithPaypalPayment.rejected, (state) => {
+        state.isLoading = false;
+        state.approvalURL = null;
+        state.orderId = null;
+        state.paymentHash = null;
       });
   },
 });

@@ -1,11 +1,59 @@
+// Correct import
+
+
 import client from "../../helpers/paypal.js";
 import Order from "../../models/Order.js";
 import Cart from "../../models/Cart.js";
 import Product from "../../models/Product.js";
 
 import paypal from "@paypal/checkout-server-sdk";
+import {generateHash} from "../../helpers/payhere.js";
+
 
 export const createOrder = async (req, res) => {
+    console.log("Creating order...");
+    try {
+        const { userId,
+            cartItems,
+            addressInfo,
+            paymentMethod,
+            paymentStatus,
+            totalAmount,
+            orderStatus,
+            currency,
+        } = req.body;
+
+        const newlyCreatedOrder = new Order({
+            userId,
+            cartItems,
+            addressInfo,
+            paymentMethod,
+            paymentStatus,
+            totalAmount,
+            orderStatus,
+        });
+
+        await newlyCreatedOrder.save();
+
+        const paymentHash = generateHash(newlyCreatedOrder._id, totalAmount, currency);
+
+        res.status(201).json({
+            success: true,
+            orderId: newlyCreatedOrder._id,
+            paymentHash,
+        });
+    } catch (e) {
+        console.error(e);
+        res.status(500).json({
+            success: false,
+            message: "Error while creating the order",
+        });
+    }
+
+}
+
+
+export const createOrderForPaypalPayments = async (req, res) => {
     try {
         const { userId,
             cartItems,
@@ -17,22 +65,7 @@ export const createOrder = async (req, res) => {
             orderDate,
             orderUpdateDate,
             paymentId,
-            payerId,
-            cartId, } = req.body;
-
-        console.log("Order Details:");
-        console.log("User ID:", userId);
-        console.log("Cart Items:", cartItems);
-        console.log("Address Info:", addressInfo);
-        console.log("Order Status:", orderStatus);
-        console.log("Payment Method:", paymentMethod);
-        console.log("Payment Status:", paymentStatus);
-        console.log("Total Amount:", totalAmount);
-        console.log("Order Date:", orderDate);
-        console.log("Order Update Date:", orderUpdateDate);
-        console.log("Payment ID:", paymentId);
-        console.log("Payer ID:", payerId);
-        console.log("Cart ID:", cartId);
+            payerId, } = req.body;
 
         // Create a new order request
         const request = new paypal.orders.OrdersCreateRequest();
@@ -78,7 +111,6 @@ export const createOrder = async (req, res) => {
         // Save the order in your database
         const newlyCreatedOrder = new Order({
             userId,
-            cartId,
             cartItems,
             addressInfo,
             orderStatus,

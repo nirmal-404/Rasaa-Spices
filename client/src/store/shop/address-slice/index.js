@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
-
+import { getToken } from "../../utils";
 const initialState = {
   isLoading: false,
   addressList: [],
@@ -24,10 +24,11 @@ export const addNewAddress = createAsyncThunk(
           },
         }
       );
-
       return response.data;
     } catch (error) {
+      console.log(error);
       return rejectWithValue(error.response?.data || error.message);
+      
     }
   }
 );
